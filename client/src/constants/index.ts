@@ -101,20 +101,34 @@ export const SKILL_CATEGORIES = [
   },
 ];
 
-export const EXPERIENCE = [
+export const EXPERIENCES = [
   {
     company: "Frelite Energy",
     role: "Full Stack Developer",
     period: "Jun 2025 - Present",
-    description:
-      "Developing scalable web and mobile apps using React, React Native, TS, and Redux. Designed REST APIs with Express/MongoDB and optimized UI for desktop and Android.",
+    location: "Vadodara",
+    description: [
+      "Architecting scalable web and mobile ecosystems using React.js, React Native, and TypeScript.",
+      "Designing high-performance RESTful APIs with Express.js and MongoDB for production systems.",
+      "Implementing global state management strategies using Redux Toolkit for seamless data flow.",
+      "Optimizing UI/UX for desktop and Android platforms with a mobile-first approach.",
+    ],
+    tech: ["React Native", "TypeScript", "Redux", "MongoDB"],
+    color: "blue",
   },
   {
     company: "Phonon.io",
     role: "Application Support Engineer",
     period: "Oct 2024 - Jun 2025",
-    description:
-      "Developed Python (Flask) automations and executed SQL/NoSQL queries. Reduced incident resolution time by 20% and automated recurring backend processes.",
+    location: "Vadodara",
+    description: [
+      "Engineered Python (Flask) backend automations integrated with React frontends for monitoring.",
+      "Executed complex SQL/NoSQL queries for failure analysis, reducing incident resolution time by 20%.",
+      "Automated critical backend processes using Linux shell scripting to eliminate manual overhead.",
+      "Maintained 99% system uptime for telecom clients across SMS, email, and voice platforms.",
+    ],
+    tech: ["Python Flask", "Linux", "SQL/NoSQL", "Shell Scripting"],
+    color: "emerald",
   },
 ];
 
