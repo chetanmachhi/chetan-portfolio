@@ -197,32 +197,67 @@ export const CERTIFICATIONS = [
 export const PROJECTS = [
   {
     title: "Real-Time Email Dispatch",
-    tech: ["Spring Boot", "React", "Bulk API"],
+    category: "Full Stack System",
+    tech: ["Java Spring Boot", "React", "Bulk CSV", "Real-Time API"],
     description:
-      "Full-stack app to send emails in real-time or bulk via CSV, replicating core business functionality.",
-  },
-  {
-    title: "Phonon.io Website",
-    tech: ["React", "Spring Boot", "REST API"],
-    description:
-      "Built a fully responsive, high-performance website from Figma designs prioritizing mobile-first design.",
+      "Full-stack application replicating core business messaging functionality.",
+    highlights: [
+      "Built a web app to send emails in real-time via API or in bulk using CSV uploads.",
+      "Replicated part of Phonon’s core functionality for seamless email delivery.",
+      "Implemented backend API integrations with Spring Boot.",
+      "Developed a dynamic React frontend ensuring a responsive UI.",
+    ],
   },
   {
     title: "Delivery Monitoring Bot",
-    tech: ["Python", "MongoDB", "Gmail API"],
+    category: "Automation & QA",
+    tech: ["Python", "MongoDB", "Gmail API", "Automation"],
     description:
-      "Automated system for SMS/Email delivery verification, reducing QA effort by 95% with auto-retry logic.",
+      "An automated system to trigger test flows and verify delivery status across channels.",
+    highlights: [
+      "Triggers test flows (SMS, email, calls) and verifies delivery status using MongoDB queries.",
+      "Integrated Gmail API to post real-time updates to a group chat.",
+      "Implemented automated retry logic every minute until a final status is received.",
+      "Reduced QA effort by 95% and improved delivery verification accuracy.",
+    ],
   },
   {
     title: "Flow Activity Monitor",
-    tech: ["Python Flask", "MySQL", "MongoDB"],
+    category: "System Automation",
+    tech: ["Python Flask", "MySQL", "MongoDB", "Alerting"],
     description:
-      "Automation tool to track messaging flows, sending severity alerts and disabling inactive flows.",
+      "An automation tool to track messaging flows and manage inactivity.",
+    highlights: [
+      "Developed a Python Flask automation tool to track SMS and email flows using MySQL and MongoDB.",
+      "Sends severity-based email alerts based on inactivity thresholds (14, 20, and 21 days).",
+      "Automatically disables inactive flows to improve operational efficiency.",
+      "Eliminated the need for manual monitoring of flow health.",
+    ],
   },
   {
     title: "Price Prediction Engine",
-    tech: ["Python", "Data Science", "API"],
+    category: "CS50 Final Project (AI/ML)",
+    tech: ["Python", "Data Science", "API", "Algorithms"],
     description:
-      "Asset price prediction using data from multiple APIs and user-selected strategies (CS50 Final Project).",
+      "Asset price prediction tool using data from multiple APIs and user strategies.",
+    highlights: [
+      "Created as the final project for CS50X and CS50P.",
+      "Predicts asset prices using data retrieved from two external APIs.",
+      "Applies concepts in data retrieval, algorithmic processing, and interactive UI design.",
+      "Allows users to apply selected strategies for prediction analysis.",
+    ],
+  },
+  {
+    title: "Phonon.io Website",
+    category: "Corporate Web Dev",
+    tech: ["React", "Spring Boot", "REST API", "Figma"],
+    description:
+      "A high-performance corporate website built from a Figma design, prioritizing mobile-first design.",
+    highlights: [
+      "Built a fully responsive, high-performance website from a Figma design.",
+      "Integrated React frontend with Spring Boot backend using REST APIs.",
+      "Prioritized mobile-first design principles to ensure seamless user experience.",
+      "Focused on performance optimization to achieve high efficiency and load speeds.",
+    ],
   },
 ];
