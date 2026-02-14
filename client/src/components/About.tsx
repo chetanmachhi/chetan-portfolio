@@ -12,8 +12,8 @@ export default function About() {
   return (
     <section id="about" className="relative py-24 md:py-32 overflow-hidden">
       {/* Local Ambient Glow */}
-      <div className="absolute top-1/4 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-blue-600/20 rounded-full blur-[120px] -translate-x-1/2 pointer-events-none mix-blend-screen" />
-      <div className="absolute bottom-1/4 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-cyan-600/10 rounded-full blur-[120px] translate-x-1/2 pointer-events-none mix-blend-screen" />
+      <div className="absolute top-1/4 left-0 w-75 md:w-125 h-75 md:h-125 bg-blue-600/20 rounded-full blur-[120px] -translate-x-1/2 pointer-events-none mix-blend-screen" />
+      <div className="absolute bottom-1/4 right-0 w-75 md:w-125 h-75 md:h-125 bg-cyan-600/10 rounded-full blur-[120px] translate-x-1/2 pointer-events-none mix-blend-screen" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -60,12 +60,7 @@ export default function About() {
 
           {/* --- RIGHT COLUMN: TIMELINE --- */}
           <div className="space-y-8 relative pt-4">
-            {/* ALIGNMENT FIX: 
-               The line is set to 'left-8' (2rem / 32px).
-               The dots are set to 'left-8' (2rem / 32px).
-               The padding for content is 'pl-16' (4rem / 64px) to clear them.
-            */}
-            <div className="absolute left-8 top-0 bottom-0 w-[2px] bg-linear-to-b from-blue-500 via-cyan-500 to-transparent" />
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-blue-500 via-cyan-500 to-transparent" />
 
             {/* CARD 1: MCA */}
             <motion.div
@@ -73,7 +68,7 @@ export default function About() {
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="relative pl-16 md:pl-24 group" // Padding pushes content right, leaving space for dots
+              className="relative pl-16 md:pl-24 group"
             >
               {/* Timeline Dot */}
               <div className="absolute left-8 top-8 -translate-x-1/2 z-10 bg-black rounded-full">

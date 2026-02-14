@@ -1,9 +1,30 @@
-import { FaReact, FaNodeJs, FaPython, FaDatabase } from "react-icons/fa";
+import {
+  FaReact,
+  FaNodeJs,
+  FaPython,
+  FaDatabase,
+  FaGitAlt,
+  FaLinux,
+  FaTerminal,
+  FaMobileAlt,
+  FaInfinity,
+  FaJava,
+} from "react-icons/fa";
+
 import {
   SiTypescript,
   SiMongodb,
   SiTailwindcss,
   SiSpringboot,
+  SiFlask,
+  SiExpress,
+  SiRedux,
+  SiHtml5,
+  SiCss3,
+  SiJavascript,
+  SiC,
+  SiJira,
+  SiZoho,
 } from "react-icons/si";
 
 export const PERSONAL_INFO = {
@@ -18,14 +39,66 @@ export const PERSONAL_INFO = {
 };
 
 export const SKILLS = [
-  { name: "React / React Native", icon: FaReact, color: "text-blue-400" },
-  { name: "TypeScript", icon: SiTypescript, color: "text-blue-600" },
-  { name: "Node.js & Express", icon: FaNodeJs, color: "text-green-500" },
+  { name: "React", icon: FaReact, color: "text-blue-400" },
+  { name: "React Native", icon: FaMobileAlt, color: "text-blue-500" },
+  { name: "Express.js", icon: SiExpress, color: "text-gray-400" },
   { name: "MongoDB", icon: SiMongodb, color: "text-green-400" },
-  { name: "SQL & NoSQL", icon: FaDatabase, color: "text-orange-400" },
-  { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-cyan-400" },
-  { name: "Python (Flask)", icon: FaPython, color: "text-yellow-300" },
-  { name: "Java Spring Boot", icon: SiSpringboot, color: "text-green-600" },
+  { name: "Spring Boot", icon: SiSpringboot, color: "text-green-600" },
+  { name: "Flask", icon: SiFlask, color: "text-white" },
+  { name: "SQL", icon: FaDatabase, color: "text-orange-400" },
+  { name: "Redux", icon: SiRedux, color: "text-purple-500" },
+  { name: "TypeScript", icon: SiTypescript, color: "text-blue-600" },
+];
+
+export const SKILL_CATEGORIES = [
+  {
+    title: "Frontend & Mobile",
+    icon: FaReact,
+    skills: [
+      { name: "React.js", icon: FaReact, color: "text-blue-400" },
+      { name: "React Native", icon: FaMobileAlt, color: "text-blue-500" },
+      { name: "Redux Toolkit", icon: SiRedux, color: "text-purple-500" },
+      { name: "TypeScript", icon: SiTypescript, color: "text-blue-600" },
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-cyan-400" },
+      { name: "HTML5", icon: SiHtml5, color: "text-orange-500" },
+      { name: "CSS3", icon: SiCss3, color: "text-blue-500" },
+    ],
+  },
+  {
+    title: "Backend & Database",
+    icon: FaNodeJs,
+    skills: [
+      { name: "Express.js", icon: SiExpress, color: "text-gray-400" },
+      { name: "Spring Boot", icon: SiSpringboot, color: "text-green-500" },
+      { name: "Flask", icon: SiFlask, color: "text-white" },
+      { name: "Node.js", icon: FaNodeJs, color: "text-green-600" },
+      { name: "REST APIs", icon: FaNodeJs, color: "text-blue-300" },
+      { name: "MongoDB", icon: SiMongodb, color: "text-green-400" },
+      { name: "SQL", icon: FaDatabase, color: "text-orange-400" },
+    ],
+  },
+  {
+    title: "Programming Languages",
+    icon: FaPython,
+    skills: [
+      { name: "Python", icon: FaPython, color: "text-yellow-300" },
+      { name: "Java", icon: FaJava, color: "text-red-500" },
+      { name: "C", icon: SiC, color: "text-blue-500" },
+      { name: "JavaScript", icon: SiJavascript, color: "text-yellow-400" },
+    ],
+  },
+  {
+    title: "Tools & DevOps",
+    icon: FaGitAlt,
+    skills: [
+      { name: "Git", icon: FaGitAlt, color: "text-orange-600" },
+      { name: "CI/CD", icon: FaInfinity, color: "text-blue-400" },
+      { name: "Linux", icon: FaLinux, color: "text-yellow-500" },
+      { name: "Shell Scripting", icon: FaTerminal, color: "text-green-500" },
+      { name: "Jira", icon: SiJira, color: "text-blue-500" },
+      { name: "Zoho", icon: SiZoho, color: "text-yellow-600" },
+    ],
+  },
 ];
 
 export const EXPERIENCE = [

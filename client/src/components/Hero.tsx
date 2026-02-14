@@ -110,7 +110,7 @@ export default function Hero() {
             <strong className="text-emerald-400 font-medium ml-1">
               creative automation
             </strong>{" "}
-            to build scalable solutions that live on the web.
+            to build scalable solutions that live on the web and mobile.
           </motion.p>
 
           <motion.div
