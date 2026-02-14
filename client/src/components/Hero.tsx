@@ -49,46 +49,14 @@ export default function Hero() {
     <section
       ref={containerRef}
       id="home"
-      className="min-h-screen flex items-center justify-center pt-24 pb-10 relative overflow-hidden bg-linear-to-b from-slate-900 via-blue-950 to-black"
+      className="min-h-screen flex items-center justify-center pt-24 pb-10 relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
-      {/* --- MOVING DOTS / PARTICLES BACKGROUND --- */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {[...Array(50)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute bg-cyan-400/30 rounded-full blur-[1px]"
-            initial={{
-              x: Math.random() * 100 + "vw",
-              y: Math.random() * 100 + "vh",
-              scale: Math.random() * 0.5 + 0.5,
-              opacity: Math.random() * 0.5 + 0.2,
-            }}
-            animate={{
-              y: [null, Math.random() * -100 + "vh"], // Float upwards
-              opacity: [0.2, 0.8, 0.2], // Twinkle effect
-            }}
-            transition={{
-              duration: Math.random() * 10 + 15, // Slower, more majestic
-              repeat: Infinity,
-              ease: "linear",
-              delay: Math.random() * 5,
-            }}
-            style={{
-              width: Math.random() * 10 + 4 + "px", // Bigger: 4px to 14px
-              height: Math.random() * 10 + 4 + "px",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Ambient Glows */}
+      {/* Kept Ambient Glows (subtle local highlighting) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-800/10 blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-800/10 blur-[120px]" />
       </div>
-
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 mix-blend-overlay pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10 w-full">
         {/* LEFT COLUMN */}
@@ -294,7 +262,7 @@ export default function Hero() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 50 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-lg bg-slate-900 rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.2)] border border-slate-800"
+              className="relative w-full max-w-lg bg-slate-900/90 backdrop-blur-xl rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.2)] border border-slate-800"
               onClick={(e) => e.stopPropagation()}
             >
               <button

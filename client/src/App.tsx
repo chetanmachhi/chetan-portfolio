@@ -6,12 +6,18 @@ import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Background from "./components/Background";
 
 function App() {
   return (
-    <div className="min-h-screen font-sans selection:bg-blue-500/30">
+    <div className="min-h-screen font-sans selection:bg-cyan-500/30 text-white relative">
+      {/* Global Background Layer */}
+      <Background />
+
       <Navbar />
-      <main>
+      
+      {/* Main Content - z-10 ensures it sits ON TOP of the background */}
+      <main className="relative z-10">
         <Hero />
         <About />
         <Skills />
@@ -19,6 +25,7 @@ function App() {
         <Projects />
         <Contact />
       </main>
+      
       <Footer />
     </div>
   );

@@ -55,9 +55,9 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-200 ${
+      className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled
-          ? "py-3 bg-slate-950/80 backdrop-blur-xl border-b border-white/10"
+          ? "py-3 bg-slate-900/50 backdrop-blur-md border-b border-white/5 shadow-lg" // More transparent/glassy
           : "py-6 bg-transparent"
       }`}
     >
@@ -118,7 +118,7 @@ export default function Navbar() {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="relative z-50 p-3 bg-slate-900 rounded-xl border border-white/10 text-white active:scale-95 transition-transform duration-100"
+              className="relative z-50 p-3 bg-slate-900/50 backdrop-blur-md rounded-xl border border-white/10 text-white active:scale-95 transition-transform duration-100"
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -135,7 +135,7 @@ export default function Navbar() {
             transition={{ duration: 0.2 }}
             className="fixed inset-0 top-20 z-40 px-6 md:hidden"
           >
-            <div className="bg-slate-950/95 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl p-6">
+            <div className="bg-slate-950/90 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6">
               <div className="flex flex-col space-y-4">
                 {navs.map((item, i) => (
                   <motion.a
