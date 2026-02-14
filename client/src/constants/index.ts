@@ -9,6 +9,9 @@ import {
   FaMobileAlt,
   FaInfinity,
   FaJava,
+  FaUniversity,
+  FaCloud,
+  FaServer,
 } from "react-icons/fa";
 
 import {
@@ -25,6 +28,7 @@ import {
   SiC,
   SiJira,
   SiZoho,
+  SiMeta,
 } from "react-icons/si";
 
 export const PERSONAL_INFO = {
@@ -129,6 +133,64 @@ export const EXPERIENCES = [
     ],
     tech: ["Python Flask", "Linux", "SQL/NoSQL", "Shell Scripting"],
     color: "emerald",
+  },
+];
+
+export const CERTIFICATIONS = [
+  {
+    name: "CS50X: Introduction to Computer Science",
+    issuer: "Harvard University",
+    year: "2024",
+    link: "https://cs50.harvard.edu/certificates/4c26144d-02b5-48d4-bedc-cc8e882415d3",
+    icon: FaUniversity,
+    color: "from-red-500 to-red-700",
+    text_color: "text-red-400",
+    description:
+      "Intensive introduction to the intellectual enterprises of computer science and the art of programming.",
+  },
+  {
+    name: "CS50P: Programming with Python",
+    issuer: "Harvard University",
+    year: "2024",
+    link: "https://cs50.harvard.edu/certificates/6cf73449-e7cd-4400-9ba2-bcd4b4b1efa0",
+    icon: FaUniversity,
+    color: "from-red-500 to-red-700",
+    text_color: "text-red-400",
+    description:
+      "Comprehensive dive into Python, covering functions, arguments, return values, variables, and debugging.",
+  },
+  {
+    name: "React Development",
+    issuer: "Meta",
+    year: "2025",
+    link: "https://www.coursera.org/account/accomplishments/verify/W1F3Z4WD7YL7",
+    icon: SiMeta,
+    color: "from-blue-400 to-cyan-400",
+    text_color: "text-cyan-400",
+    description:
+      "Advanced React concepts including Hooks, Redux, component lifecycle, and building scalable UI.",
+  },
+  {
+    name: "Backend with Node.js & Express",
+    issuer: "IBM",
+    year: "2025",
+    link: "https://www.coursera.org/account/accomplishments/verify/A232VBBFP9J0",
+    icon: FaServer,
+    color: "from-blue-600 to-indigo-600",
+    text_color: "text-blue-400",
+    description:
+      "Server-side development using Node.js and Express framework, focusing on REST APIs and middleware.",
+  },
+  {
+    name: "Cloud Native, DevOps, Agile & NoSQL",
+    issuer: "IBM",
+    year: "2025",
+    link: "https://www.coursera.org/account/accomplishments/verify/KRZCGE9F067B",
+    icon: FaCloud,
+    color: "from-blue-600 to-indigo-600",
+    text_color: "text-blue-400",
+    description:
+      "Modern DevOps practices, Agile methodologies, and deploying cloud-native apps with NoSQL databases.",
   },
 ];
 
