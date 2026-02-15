@@ -193,7 +193,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  href="#resume"
+                  href={resumeFile}
                   className="mt-4 w-full py-4 rounded-xl bg-linear-to-r from-blue-600 to-purple-600 text-white font-bold text-center flex justify-center items-center gap-2"
                 >
                   Resume <FileText size={20} />

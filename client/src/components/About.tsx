@@ -78,7 +78,7 @@ export default function About() {
               </div>
 
               <div className="relative p-1 rounded-2xl bg-linear-to-br from-white/10 to-white/0 overflow-hidden group-hover:from-blue-500/50 group-hover:to-cyan-500/50 transition-colors duration-500">
-                <div className="relative p-5 md:p-6 rounded-xl bg-slate-950/80 backdrop-blur-md h-full hover:bg-slate-900/90 transition-colors">
+                <div className="relative p-5 md:p-6 rounded-xl bg-slate-950/40 backdrop-blur-md h-full hover:bg-slate-900/90 transition-colors">
                   <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                     <div>
                       <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-cyan-300 transition-colors">
@@ -118,7 +118,7 @@ export default function About() {
               </div>
 
               <div className="relative p-1 rounded-2xl bg-linear-to-br from-white/10 to-white/0 overflow-hidden group-hover:from-emerald-500/50 group-hover:to-teal-500/50 transition-colors duration-500">
-                <div className="relative p-5 md:p-6 rounded-xl bg-slate-950/80 backdrop-blur-md h-full hover:bg-slate-900/90 transition-colors">
+                <div className="relative p-5 md:p-6 rounded-xl bg-slate-950/40 backdrop-blur-md h-full hover:bg-slate-900/90 transition-colors">
                   <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                     <div>
                       <h3 className="text-xl md:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">

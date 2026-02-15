@@ -21,31 +21,55 @@ export default function Skills() {
     setIndex((prev) => (prev - 1 + SKILLS.length) % SKILLS.length);
   };
 
+
   const getCardStyle = (itemIndex: number) => {
     const total = SKILLS.length;
     let distance = (itemIndex - index + total) % total;
     if (distance > total / 2) distance -= total;
 
+    // Active Card (Center)
     if (distance === 0) {
-      return { x: 0, scale: 1, opacity: 1, zIndex: 10, rotateY: 0 };
-    } else if (Math.abs(distance) === 1) {
+      return {
+        x: 0,
+        scale: 1,
+        opacity: 1, // Fully visible
+        zIndex: 10,
+        rotateY: 0,
+        filter: "brightness(1.1)", // Slight highlight
+      };
+    }
+    // Side Cards (Neighbors)
+    else if (Math.abs(distance) === 1) {
       return {
         x: distance * 300,
         scale: 0.9,
-        opacity: 0.8,
+        opacity: 0.7, // Slightly transparent but readable
         zIndex: 5,
         rotateY: distance * -15,
+        filter: "brightness(0.8)", // Dim the side cards slightly
       };
-    } else if (Math.abs(distance) === 2) {
+    }
+    // Far Cards
+    else if (Math.abs(distance) === 2) {
       return {
         x: distance * 250,
         scale: 0.8,
-        opacity: 0.4,
+        opacity: 0.3, // Fade these out more
         zIndex: 1,
         rotateY: distance * -30,
+        filter: "brightness(0.6) blur(2px)", // Add blur to distant cards for depth
       };
-    } else {
-      return { x: 0, scale: 0, opacity: 0, zIndex: 0, rotateY: 0 };
+    }
+    // Hidden
+    else {
+      return {
+        x: 0,
+        scale: 0,
+        opacity: 0,
+        zIndex: 0,
+        rotateY: 0,
+        filter: "none",
+      };
     }
   };
 

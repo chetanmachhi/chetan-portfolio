@@ -5,7 +5,7 @@ import { EXPERIENCES } from "../constants";
 export default function Experience() {
   return (
     <section id="experience" className="relative py-24 bg-transparent">
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-50">
         <div className="absolute top-1/4 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 left-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
       </div>
@@ -50,7 +50,7 @@ export default function Experience() {
                   whileHover="hover"
                   className="relative w-full group"
                 >
-                  <div className="absolute inset-0 rounded-2xl bg-slate-900/60 backdrop-blur-xl border border-white/10 group-hover:border-cyan-500/50 transition-all duration-500 shadow-xl overflow-hidden z-0">
+                  <div className="absolute inset-0 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/10 group-hover:border-cyan-500/50 transition-all duration-500 shadow-xl overflow-hidden z-0">
                     <motion.div
                       variants={{
                         initial: { top: "-100%" },
@@ -93,8 +93,7 @@ export default function Experience() {
                         }}
                       />
                     ))}
-
-                    {[...Array(6)].map((_, i) => (
+                                        {[...Array(6)].map((_, i) => (
                       <motion.div
                         key={`bottom-${i}`}
                         className="absolute bottom-0 w-1.5 h-1.5 bg-purple-400 rounded-full shadow-lg shadow-purple-400"
@@ -159,26 +158,28 @@ export default function Experience() {
                         }}
                       />
                     ))}
+
                   </div>
 
+                  {/* Content Container */}
                   <div className="p-6 md:p-10 relative z-10">
-                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8 border-b border-white/5 pb-6">
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8 border-b border-white/10 pb-6">
                       <div>
                         <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">
                           {job.role}
                         </h3>
-                        <div className="flex flex-wrap items-center gap-4 mt-2 text-slate-300">
-                          <span className="flex items-center gap-2 font-semibold text-lg">
+                        <div className="flex flex-wrap items-center gap-4 mt-2">
+                          <span className="flex items-center gap-2 font-bold text-lg text-slate-200">
                             <Briefcase size={18} className="text-purple-400" />
                             {job.company}
                           </span>
-                          <span className="flex items-center gap-1 text-sm text-slate-500">
+                          <span className="flex items-center gap-1 text-sm text-slate-400 font-medium">
                             <MapPin size={14} /> {job.location}
                           </span>
                         </div>
                       </div>
 
-                      <div className="self-start flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-950/50 border border-cyan-500/30 text-cyan-300 shadow-lg shadow-cyan-400/20 whitespace-nowrap group-hover:border-cyan-500/60 transition-colors">
+                      <div className="self-start flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-950/80 border border-cyan-500/30 text-cyan-300 shadow-lg shadow-cyan-400/20 whitespace-nowrap">
                         <CalendarClock size={16} />
                         <span className="font-mono font-bold text-sm tracking-wide">
                           {job.period}
@@ -192,8 +193,8 @@ export default function Experience() {
                           key={i}
                           className="flex gap-4 items-start group/line"
                         >
-                          <div className="mt-2 min-w-1.5 h-1.5 rounded-full bg-slate-600 group-hover/line:bg-cyan-400 transition-colors shadow-none group-hover/line:shadow-lg group-hover/line:shadow-cyan-400/50" />
-                          <p className="text-slate-300 text-base md:text-lg leading-relaxed font-light group-hover/line:text-slate-100 transition-colors">
+                          <div className="mt-2.5 min-w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_cyan]" />
+                          <p className="text-slate-100 text-base md:text-lg leading-relaxed font-medium group-hover/line:text-white transition-colors">
                             {point}
                           </p>
                         </div>
@@ -204,7 +205,7 @@ export default function Experience() {
                       {job.tech.map((tech, tIdx) => (
                         <span
                           key={tIdx}
-                          className="px-3 py-1.5 text-xs font-bold font-mono rounded bg-slate-800/50 text-slate-400 border border-transparent group-hover:border-slate-700 group-hover:text-cyan-200 transition-colors"
+                          className="px-3 py-1.5 text-xs font-bold font-mono rounded bg-slate-800 text-cyan-100 border border-slate-700 group-hover:border-cyan-500/30 transition-colors"
                         >
                           #{tech}
                         </span>
