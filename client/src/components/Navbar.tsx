@@ -6,6 +6,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+import resumeFile from "../assets/chetan-resume-2026.pdf";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,10 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const handleScrollTo = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    id: string,
+  ) => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
@@ -29,7 +33,7 @@ export default function Navbar() {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
     setIsOpen(false); // Close mobile menu if open
@@ -70,7 +74,15 @@ export default function Navbar() {
   };
 
   // Added "Certifications" to the list
-  const navs = ["Home", "About", "Skills", "Experience", "Certifications", "Projects", "Contact"];
+  const navs = [
+    "Home",
+    "About",
+    "Skills",
+    "Experience",
+    "Certifications",
+    "Projects",
+    "Contact",
+  ];
 
   return (
     <nav
@@ -120,7 +132,8 @@ export default function Navbar() {
 
             <MagneticWrapper>
               <a
-                href="#resume" // Assuming you have a resume link or section
+                href={resumeFile}
+                download="Chetan_Machhi_Resume.pdf"
                 className="relative overflow-hidden ml-4 px-6 py-2.5 rounded-xl bg-linear-to-r from-blue-600 to-purple-600 text-white font-bold shadow-lg group flex items-center gap-2"
               >
                 <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-500 bg-linear-to-r from-transparent via-white/30 to-transparent z-20"></div>
