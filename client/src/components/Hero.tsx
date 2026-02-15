@@ -1,15 +1,109 @@
-import { useEffect, useState, useRef } from "react";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { Mail, ArrowDown, Code, Database, Terminal, X } from "lucide-react";
+import React, { useEffect, useState, useRef } from "react";
+import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { Mail, Code, Database, Terminal, X, ArrowRight } from "lucide-react";
 import {
   motion,
   useSpring,
   useMotionValue,
   useTransform,
   AnimatePresence,
+  useAnimation,
 } from "framer-motion";
 import { PERSONAL_INFO } from "../constants";
 import profileImg from "../assets/rengoku.jpeg";
+
+// 1. Define the Interface for the props
+interface FloatingIconProps {
+  Icon: React.ElementType; // Allows passing components like Code, Database
+  color: string;
+  bg: string;
+  border: string;
+  initialX: number;
+  initialY: number;
+  delay: number;
+}
+
+// 2. Apply the interface to the component
+const FloatingIcon = ({
+  Icon,
+  color,
+  bg,
+  border,
+  initialX,
+  initialY,
+  delay,
+}: FloatingIconProps) => {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    controls.start({
+      y: [0, -15, 0, 15, 0],
+      x: [0, 10, 0, -10, 0],
+      transition: {
+        duration: 5 + Math.random() * 2,
+        repeat: Infinity,
+        repeatType: "mirror",
+        ease: "easeInOut",
+        delay: delay,
+      },
+    });
+  }, [controls, delay]);
+
+  const handleHover = () => {
+    const escapeX = (Math.random() - 0.5) * 250;
+    const escapeY = (Math.random() - 0.5) * 250;
+
+    controls
+      .start({
+        x: escapeX,
+        y: escapeY,
+        scale: 1.1,
+        transition: { duration: 0.3, ease: "backOut" },
+      })
+      .then(() => {
+        controls.start({
+          x: 0,
+          y: 0,
+          scale: 1,
+          transition: {
+            duration: 2.5,
+            ease: "easeInOut",
+            onComplete: () => {
+              controls.start({
+                y: [0, -15, 0, 15, 0],
+                x: [0, 10, 0, -10, 0],
+                transition: {
+                  duration: 6,
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                  ease: "easeInOut",
+                },
+              });
+            },
+          },
+        });
+      });
+  };
+
+  return (
+    <motion.div
+      className={`absolute p-4 rounded-2xl ${bg} ${border} border shadow-xl backdrop-blur-md z-50 cursor-pointer`}
+      style={{
+        left: `calc(50% + ${initialX}px)`,
+        top: `calc(50% + ${initialY}px)`,
+        marginLeft: "-32px",
+        marginTop: "-32px",
+        transformStyle: "preserve-3d",
+        z: 100,
+      }}
+      animate={controls}
+      onMouseEnter={handleHover}
+      whileTap={{ scale: 0.9 }}
+    >
+      <Icon className={`w-7 h-7 ${color}`} />
+    </motion.div>
+  );
+};
 
 export default function Hero() {
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
@@ -52,7 +146,7 @@ export default function Hero() {
       className="min-h-screen flex items-center justify-center pt-24 pb-10 relative overflow-hidden"
       onMouseMove={handleMouseMove}
     >
-      {/* Kept Ambient Glows (subtle local highlighting) */}
+      {/* Ambient Glows */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-800/10 blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-800/10 blur-[120px]" />
@@ -120,38 +214,49 @@ export default function Hero() {
             className="flex flex-wrap items-center justify-center lg:justify-start gap-5"
           >
             <a
-              href="#projects"
-              className="group relative px-8 py-4 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-full font-bold overflow-hidden transition-all hover:scale-105 shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_40px_rgba(37,99,235,0.6)]"
+              href="#contact"
+              className="group relative px-8 py-4 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-full font-bold overflow-hidden transition-all hover:scale-105 shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_40px_rgba(37,99,235,0.6)] flex items-center gap-2"
             >
               <div className="absolute inset-0 w-full h-full bg-linear-to-r from-cyan-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <span className="relative flex items-center gap-2">
-                Explore Work <ArrowDown size={18} />
+                Contact Me{" "}
+                <ArrowRight
+                  size={18}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
               </span>
-            </a>
-
-            <a
-              href="#contact"
-              className="px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-2 group"
-            >
-              Contact Me
-              <Mail
-                size={18}
-                className="group-hover:rotate-12 transition-transform text-cyan-400"
-              />
             </a>
           </motion.div>
 
           <div className="flex items-center justify-center lg:justify-start gap-6 pt-6">
             {[
-              { icon: FaGithub, href: PERSONAL_INFO.github },
-              { icon: FaLinkedin, href: PERSONAL_INFO.linkedin },
-              { icon: Mail, href: `mailto:${PERSONAL_INFO.email}` },
+              {
+                icon: FaGithub,
+                href: PERSONAL_INFO.github,
+                color: "hover:text-white",
+              },
+              {
+                icon: FaLinkedin,
+                href: PERSONAL_INFO.linkedin,
+                color: "hover:text-blue-400",
+              },
+              {
+                icon: FaInstagram,
+                href: "https://www.instagram.com/chetan_25_03?igsh=OG8xdDhtMmVtZjkw",
+                color: "hover:text-pink-400",
+              },
+              {
+                icon: Mail,
+                href: `mailto:${PERSONAL_INFO.email}`,
+                color: "hover:text-cyan-400",
+              },
             ].map((social, idx) => (
               <a
                 key={idx}
                 href={social.href}
                 target="_blank"
-                className="text-slate-400 hover:text-white hover:scale-110 transition-all duration-300 p-2"
+                rel="noopener noreferrer"
+                className={`text-slate-400 ${social.color} hover:scale-110 transition-all duration-300 p-2`}
               >
                 <social.icon size={26} />
               </a>
@@ -173,60 +278,54 @@ export default function Hero() {
               rotateY,
               transformStyle: "preserve-3d",
             }}
-            className="relative w-80 h-80 md:w-96 md:h-96"
+            className="relative w-80 h-80 md:w-96 md:h-96 flex items-center justify-center"
           >
+            {/* Background Glows */}
             <div className="absolute inset-0 bg-linear-to-tr from-cyan-600/30 to-blue-600/30 rounded-full blur-3xl animate-pulse" />
 
             <div
-              className="absolute inset-0 border border-cyan-500/30 rounded-full animate-[spin_8s_linear_infinite]"
+              className="absolute inset-4 border border-cyan-500/20 rounded-full animate-[spin_10s_linear_infinite]"
               style={{ transform: "translateZ(-50px)" }}
             />
-            <div
-              className="absolute inset-8 border border-blue-500/30 rounded-full animate-[spin_12s_linear_infinite_reverse] border-dashed"
-              style={{ transform: "translateZ(-20px)" }}
+
+            {/* FLOATING ICONS - Using 'left/top' for static pos, 'x/y' for animation */}
+
+            {/* 1. CODE (Top Center) */}
+            <FloatingIcon
+              Icon={Code}
+              color="text-cyan-400"
+              bg="bg-cyan-950/50"
+              border="border-cyan-500/30"
+              initialX={0}
+              initialY={-190} // 190px Up
+              delay={0}
             />
 
-            {[
-              {
-                Icon: Code,
-                color: "text-cyan-400",
-                bg: "bg-cyan-950/50",
-                border: "border-cyan-500/30",
-                pos: "top-0 left-1/2 -translate-x-1/2 -translate-y-6",
-              },
-              {
-                Icon: Database,
-                color: "text-blue-400",
-                bg: "bg-blue-950/50",
-                border: "border-blue-500/30",
-                pos: "bottom-12 -right-4",
-              },
-              {
-                Icon: Terminal,
-                color: "text-emerald-400",
-                bg: "bg-emerald-950/50",
-                border: "border-emerald-500/30",
-                pos: "bottom-12 -left-4",
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                className={`absolute ${item.pos} p-4 rounded-2xl ${item.bg} ${item.border} border shadow-xl backdrop-blur-md z-20`}
-                animate={{ y: [0, -10, 0] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  delay: i * 1.5,
-                  ease: "easeInOut",
-                }}
-                style={{ transform: "translateZ(50px)" }}
-              >
-                <item.Icon className={`w-6 h-6 ${item.color}`} />
-              </motion.div>
-            ))}
+            {/* 2. DATABASE (Bottom Right) */}
+            <FloatingIcon
+              Icon={Database}
+              color="text-blue-400"
+              bg="bg-blue-950/50"
+              border="border-blue-500/30"
+              initialX={180} // 180px Right
+              initialY={120} // 120px Down
+              delay={1.5}
+            />
 
+            {/* 3. TERMINAL (Bottom Left) */}
+            <FloatingIcon
+              Icon={Terminal}
+              color="text-emerald-400"
+              bg="bg-emerald-950/50"
+              border="border-emerald-500/30"
+              initialX={-180} // 180px Left
+              initialY={120} // 120px Down
+              delay={3}
+            />
+
+            {/* Profile Picture (Center) */}
             <div
-              className="absolute inset-[15%] rounded-full bg-slate-900 p-2 cursor-pointer group shadow-2xl z-10"
+              className="absolute inset-[18%] rounded-full bg-slate-900 p-2 cursor-pointer group shadow-2xl z-10"
               onClick={() => setIsProfileExpanded(true)}
               style={{ transform: "translateZ(30px)" }}
             >
