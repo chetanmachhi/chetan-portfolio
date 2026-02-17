@@ -22,8 +22,8 @@ function App() {
         {
         // <Hero />
         // <About />
-        <Skills />
-        // <Experience />
+        // <Skills />
+        <Experience />
         // <Certifications />
         // <Projects />
         // <Contact />
