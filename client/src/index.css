@@ -24,3 +24,7 @@
   will-change: transform, opacity; /* GPU layer hint */
   backface-visibility: hidden; /* Forces GPU */
 }
+
+html {
+  scroll-behavior: smooth;
+}
