@@ -4,10 +4,10 @@ import { EXPERIENCES } from "../constants";
 
 export default function Experience() {
   return (
-    <section id="experience" className="relative py-24 bg-transparent">
+    <section id="experience" className="relative py-16 md:py-24 bg-transparent">
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-50">
         <div
-          className="absolute top-1/4 right-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"
+          className="absolute top-1/4 right-10 w-64 h-64 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-3xl"
           style={{
             willChange: "transform",
             backfaceVisibility: "hidden",
@@ -15,7 +15,7 @@ export default function Experience() {
           }}
         />
         <div
-          className="absolute bottom-1/4 left-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"
+          className="absolute bottom-1/4 left-10 w-64 h-64 md:w-96 md:h-96 bg-purple-600/10 rounded-full blur-3xl"
           style={{
             willChange: "transform",
             backfaceVisibility: "hidden",
@@ -29,9 +29,9 @@ export default function Experience() {
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
             Professional{" "}
             <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-500">
               Journey
@@ -41,7 +41,8 @@ export default function Experience() {
         </motion.div>
 
         <div className="relative flex flex-col gap-12">
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-0.5 bg-slate-800">
+          {/* Vertical Line */}
+          <div className="absolute left-3 md:left-8 top-0 bottom-0 w-0.5 bg-slate-800">
             <div className="absolute inset-0 bg-linear-to-b from-cyan-500 via-purple-500 to-transparent opacity-40" />
           </div>
 
@@ -52,9 +53,9 @@ export default function Experience() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative pl-16 md:pl-24 w-full"
+              className="relative pl-10 md:pl-24 w-full"
             >
-              <div className="absolute left-2.5 md:left-6 top-10 w-4 h-4 bg-slate-900 border-2 border-cyan-400 rounded-full z-20 shadow-lg shadow-cyan-400">
+              <div className="absolute left-1.5 md:left-6 top-10 w-3.5 h-3.5 md:w-4 md:h-4 bg-slate-900 border-2 border-cyan-400 rounded-full z-20 shadow-lg shadow-cyan-400">
                 <div className="absolute inset-0 bg-cyan-400 animate-ping opacity-50 rounded-full" />
               </div>
 
@@ -93,7 +94,6 @@ export default function Experience() {
                 </div>
 
                 <div className="absolute inset-0 pointer-events-none z-50 overflow-visible">
-                  {/* Right side – 4 particles, wider spacing */}
                   {[...Array(4)].map((_, i) => (
                     <motion.div
                       key={`right-${i}`}
@@ -118,8 +118,6 @@ export default function Experience() {
                       }}
                     />
                   ))}
-
-                  {/* Left side – 4 particles, wider spacing */}
                   {[...Array(4)].map((_, i) => (
                     <motion.div
                       key={`left-${i}`}
@@ -147,39 +145,39 @@ export default function Experience() {
                 </div>
 
                 {/* Content Container */}
-                <div className="p-6 md:p-10 relative z-10">
-                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8 border-b border-white/10 pb-6">
+                <div className="p-5 md:p-10 relative z-10">
+                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6 md:mb-8 border-b border-white/10 pb-4 md:pb-6">
                     <div>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                      <h3 className="text-xl md:text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">
                         {job.role}
                       </h3>
-                      <div className="flex flex-wrap items-center gap-4 mt-2">
-                        <span className="flex items-center gap-2 font-bold text-lg text-slate-200">
-                          <Briefcase size={18} className="text-purple-400" />
+                      <div className="flex flex-wrap items-center gap-2 md:gap-4 mt-2">
+                        <span className="flex items-center gap-2 font-bold text-base md:text-lg text-slate-200">
+                          <Briefcase size={16} className="text-purple-400" />
                           {job.company}
                         </span>
-                        <span className="flex items-center gap-1 text-sm text-slate-400 font-medium">
-                          <MapPin size={14} /> {job.location}
+                        <span className="flex items-center gap-1 text-xs md:text-sm text-slate-400 font-medium">
+                          <MapPin size={12} /> {job.location}
                         </span>
                       </div>
                     </div>
 
-                    <div className="self-start flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-950/80 border border-cyan-500/30 text-cyan-300 shadow-lg shadow-cyan-400/20 whitespace-nowrap">
-                      <CalendarClock size={16} />
-                      <span className="font-mono font-bold text-sm tracking-wide">
+                    <div className="self-start flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg bg-slate-950/80 border border-cyan-500/30 text-cyan-300 shadow-lg shadow-cyan-400/20 whitespace-nowrap">
+                      <CalendarClock size={14} />
+                      <span className="font-mono font-bold text-xs md:text-sm tracking-wide">
                         {job.period}
                       </span>
                     </div>
                   </div>
 
-                  <div className="space-y-4 mb-8">
+                  <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
                     {job.description.map((point, i) => (
                       <div
                         key={i}
-                        className="flex gap-4 items-start group/line"
+                        className="flex gap-3 items-start group/line"
                       >
-                        <div className="mt-2.5 min-w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_cyan]" />
-                        <p className="text-slate-100 text-base md:text-lg leading-relaxed font-medium group-hover/line:text-white transition-colors">
+                        <div className="mt-2 min-w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_cyan]" />
+                        <p className="text-slate-200 text-sm md:text-lg leading-relaxed font-medium group-hover/line:text-white transition-colors">
                           {point}
                         </p>
                       </div>
@@ -190,7 +188,7 @@ export default function Experience() {
                     {job.tech.map((tech, tIdx) => (
                       <span
                         key={tIdx}
-                        className="px-3 py-1.5 text-xs font-bold font-mono rounded bg-slate-800 text-cyan-100 border border-slate-700 group-hover:border-cyan-500/30 transition-colors"
+                        className="px-2 py-1 md:px-3 md:py-1.5 text-[10px] md:text-xs font-bold font-mono rounded bg-slate-800 text-cyan-100 border border-slate-700 group-hover:border-cyan-500/30 transition-colors"
                       >
                         #{tech}
                       </span>

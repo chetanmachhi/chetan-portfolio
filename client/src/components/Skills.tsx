@@ -5,31 +5,36 @@ import { SKILLS, SKILL_CATEGORIES } from "../constants";
 
 export default function Skills() {
   const [index, setIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const isScrollingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       isScrollingRef.current = true;
-
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
-
       scrollTimeoutRef.current = setTimeout(() => {
         isScrollingRef.current = false;
       }, 150);
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
   }, []);
 
@@ -39,13 +44,10 @@ export default function Skills() {
         setIndex((prev) => (prev + 1) % SKILLS.length);
       }
     }, 3000);
-
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, []); // ← removed [index] dependency
+  }, []);
 
   const nextStep = () => {
     setIndex((prev) => (prev + 1) % SKILLS.length);
@@ -60,6 +62,9 @@ export default function Skills() {
     let distance = (itemIndex - index + total) % total;
     if (distance > total / 2) distance -= total;
 
+    const spread = isMobile ? 180 : 300;
+    const spreadFar = isMobile ? 150 : 250;
+
     if (distance === 0) {
       return {
         x: 0,
@@ -70,7 +75,7 @@ export default function Skills() {
       };
     } else if (Math.abs(distance) === 1) {
       return {
-        x: distance * 300,
+        x: distance * spread,
         scale: 0.9,
         opacity: 0.7,
         zIndex: 5,
@@ -78,7 +83,7 @@ export default function Skills() {
       };
     } else if (Math.abs(distance) === 2) {
       return {
-        x: distance * 250,
+        x: distance * spreadFar,
         scale: 0.8,
         opacity: 0.3,
         zIndex: 1,
@@ -95,8 +100,6 @@ export default function Skills() {
     }
   };
 
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -112,7 +115,7 @@ export default function Skills() {
   };
 
   return (
-    <section id="skills" className="relative py-24 overflow-hidden">
+    <section id="skills" className="relative py-16 md:py-24 overflow-hidden">
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"
         style={{
@@ -123,28 +126,29 @@ export default function Skills() {
       />
 
       <div className="w-full max-w-[95vw] xl:max-w-7xl mx-auto px-4 relative z-10 flex flex-col items-center">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">
             Technical{" "}
             <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">
               Arsenal
             </span>
           </h2>
-          <p className="text-slate-400 text-lg">
+          <p className="text-slate-400 text-base md:text-lg">
             Mastering the tools that build the future.
           </p>
         </div>
 
+        {/* Carousel Container */}
         <div className="relative w-full h-80 flex items-center justify-center perspective-1000 mb-8">
           {SKILLS.map((skill, i) => {
             const style = getCardStyle(i);
-            const xOffset = isMobile ? style.x * 0.4 : style.x;
+            const xOffset = style.x;
             const isActive = style.opacity === 1;
 
             return (
               <motion.div
                 key={i}
-                className="absolute w-64 h-80 rounded-3xl bg-slate-900/80 backdrop-blur-md border border-white/10 shadow-2xl flex flex-col items-center justify-center gap-6 cursor-pointer"
+                className="absolute w-56 h-72 md:w-64 md:h-80 rounded-3xl bg-slate-900/80 backdrop-blur-md border border-white/10 shadow-2xl flex flex-col items-center justify-center gap-6 cursor-pointer"
                 animate={{
                   x: xOffset,
                   scale: style.scale,
@@ -157,7 +161,7 @@ export default function Skills() {
                 style={{
                   willChange: "transform, opacity",
                   backfaceVisibility: "hidden",
-                  transform: "translate3d(0, 0, 0)", // ← added
+                  transform: "translate3d(0, 0, 0)",
                 }}
               >
                 {isActive && (
@@ -169,10 +173,10 @@ export default function Skills() {
                   } transition-all duration-500`}
                 >
                   <skill.icon
-                    className={`text-6xl ${skill.color} filter drop-shadow-lg`}
+                    className={`text-5xl md:text-6xl ${skill.color} filter drop-shadow-lg`}
                   />
                 </div>
-                <h3 className="text-xl font-bold text-white tracking-wide">
+                <h3 className="text-lg md:text-xl font-bold text-white tracking-wide">
                   {skill.name}
                 </h3>
               </motion.div>
@@ -180,6 +184,7 @@ export default function Skills() {
           })}
         </div>
 
+        {/* Controls */}
         <div className="flex gap-8 mb-8 z-50">
           <button
             onClick={prevStep}
@@ -195,12 +200,13 @@ export default function Skills() {
           </button>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-3 w-full mb-16">
+        {/* Manual Buttons */}
+        <div className="flex flex-wrap justify-center gap-2 md:gap-3 w-full mb-12 md:mb-16 px-2">
           {SKILLS.map((skill, i) => (
             <button
               key={i}
               onClick={() => setIndex(i)}
-              className={`relative group overflow-hidden flex items-center gap-2 px-4 py-2 rounded-lg border transition-all duration-300 min-w-30 ${
+              className={`relative group overflow-hidden flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 min-w-[100px] md:min-w-[120px] ${
                 index === i
                   ? "bg-slate-900 border-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.3)] scale-105 z-10"
                   : "bg-slate-900/40 border-slate-700 hover:border-slate-500"
@@ -214,7 +220,7 @@ export default function Skills() {
               )}
               <div className="relative z-10 flex items-center gap-2 w-full justify-center">
                 <skill.icon
-                  className={`text-lg ${skill.color} filter drop-shadow-md`}
+                  className={`text-base md:text-lg ${skill.color} filter drop-shadow-md`}
                 />
                 <span
                   className={`text-xs font-medium whitespace-nowrap ${
@@ -228,18 +234,19 @@ export default function Skills() {
           ))}
         </div>
 
+        {/* Categories Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
         >
           {SKILL_CATEGORIES.map((category, idx) => (
             <motion.div
               key={idx}
               variants={itemVariants}
-              className="relative group bg-slate-900/40 backdrop-blur-md border border-slate-800 p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] hover:-translate-y-2"
+              className="relative group bg-slate-900/40 backdrop-blur-md border border-slate-800 p-5 md:p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] hover:-translate-y-2"
               style={{
                 willChange: "transform, box-shadow",
                 backfaceVisibility: "hidden",
@@ -247,20 +254,20 @@ export default function Skills() {
             >
               <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-              <div className="flex items-center gap-4 mb-6 relative z-10">
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-cyan-400 group-hover:text-white group-hover:bg-linear-to-br group-hover:from-cyan-500 group-hover:to-blue-600 transition-all duration-300 shadow-lg">
-                  <category.icon size={24} />
+              <div className="flex items-center gap-4 mb-4 md:mb-6 relative z-10">
+                <div className="p-2 md:p-3 rounded-xl bg-slate-950 border border-slate-800 text-cyan-400 group-hover:text-white group-hover:bg-linear-to-br group-hover:from-cyan-500 group-hover:to-blue-600 transition-all duration-300 shadow-lg">
+                  <category.icon size={20} className="md:w-6 md:h-6" />
                 </div>
-                <h3 className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
                   {category.title}
                 </h3>
               </div>
 
-              <div className="flex flex-wrap gap-3 relative z-10">
+              <div className="flex flex-wrap gap-2 md:gap-3 relative z-10">
                 {category.skills.map((s, sIdx) => (
                   <div
                     key={sIdx}
-                    className="relative overflow-hidden flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-900 border border-slate-700/50 transition-all duration-300"
+                    className="relative overflow-hidden flex items-center gap-2 px-2.5 py-1.5 md:px-3 md:py-2 rounded-lg bg-slate-900 border border-slate-700/50 transition-all duration-300"
                   >
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                       <div className="absolute -inset-full bg-[conic-gradient(from_0deg,transparent_0_340deg,cyan_360deg)] animate-[spin_4s_linear_infinite]" />
@@ -268,8 +275,10 @@ export default function Skills() {
                     </div>
 
                     <div className="relative z-10 flex items-center gap-2">
-                      {s.icon && <s.icon className={`text-sm ${s.color}`} />}
-                      <span className="text-sm font-bold text-slate-200 group-hover:text-white">
+                      {s.icon && (
+                        <s.icon className={`text-xs md:text-sm ${s.color}`} />
+                      )}
+                      <span className="text-xs md:text-sm font-bold text-slate-200 group-hover:text-white">
                         {s.name}
                       </span>
                     </div>

@@ -1,6 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
-import { Mail, Code, Database, Terminal, X, ArrowRight } from "lucide-react";
+import {
+  Mail,
+  Code,
+  Database,
+  Terminal,
+  X,
+  ArrowRight,
+  FileText,
+} from "lucide-react";
 import {
   motion,
   useSpring,
@@ -11,6 +19,7 @@ import {
 } from "framer-motion";
 import { PERSONAL_INFO } from "../constants";
 import profileImg from "../assets/rengoku.jpeg";
+import resumeFile from "../assets/chetan-resume-2026.pdf";
 
 interface FloatingIconProps {
   Icon: React.ElementType;
@@ -214,6 +223,7 @@ export default function Hero() {
             transition={{ delay: 0.6 }}
             className="flex flex-wrap items-center justify-center lg:justify-start gap-5"
           >
+            {/* Primary Contact Button */}
             <a
               href="#contact"
               className="group relative px-8 py-4 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-full font-bold overflow-hidden transition-all hover:scale-105 shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_40px_rgba(37,99,235,0.6)] flex items-center gap-2"
@@ -225,6 +235,16 @@ export default function Hero() {
                   size={18}
                   className="group-hover:translate-x-1 transition-transform"
                 />
+              </span>
+            </a>
+
+            <a
+              href={resumeFile}
+              download="Chetan_Machhi_Resume.pdf"
+              className="group relative px-8 py-4 bg-slate-900/50 text-white rounded-full font-bold overflow-hidden transition-all hover:scale-105 border border-white/10 hover:border-cyan-500/50 shadow-lg flex items-center gap-2"
+            >
+              <span className="relative flex items-center gap-2 group-hover:text-cyan-400 transition-colors">
+                Resume <FileText size={18} />
               </span>
             </a>
           </motion.div>
@@ -282,7 +302,7 @@ export default function Hero() {
               backfaceVisibility: "hidden",
               transform: "translate3d(0, 0, 0)",
             }}
-            className="relative w-80 h-80 md:w-96 md:h-96 flex items-center justify-center"
+            className="relative w-80 h-80 md:w-96 md:h-96 flex items-center justify-center scale-[0.6] xs:scale-[0.7] md:scale-100"
           >
             {/* Background Glows */}
             <div className="absolute inset-0 bg-linear-to-tr from-cyan-600/30 to-blue-600/30 rounded-full blur-3xl animate-pulse" />

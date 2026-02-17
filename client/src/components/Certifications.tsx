@@ -6,13 +6,13 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="relative py-24 bg-transparent overflow-hidden contain-paint"
+      className="relative py-16 md:py-24 bg-transparent overflow-hidden contain-paint"
     >
       {/* Background Grid & Glows */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(6,182,212,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.05)_1px,transparent_1px)] bg-size-[40px_40px] opacity-20" />
         <div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px]"
+          className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 bg-cyan-500/10 rounded-full blur-[80px] md:blur-[100px]"
           style={{
             willChange: "transform",
             backfaceVisibility: "hidden",
@@ -20,7 +20,7 @@ export default function Certifications() {
           }}
         />
         <div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px]"
+          className="absolute bottom-1/4 right-1/4 w-64 h-64 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-[80px] md:blur-[100px]"
           style={{
             willChange: "transform",
             backfaceVisibility: "hidden",
@@ -35,9 +35,9 @@ export default function Certifications() {
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4 md:mb-6">
             Professional{" "}
             <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">
               Certifications
@@ -47,7 +47,7 @@ export default function Certifications() {
         </motion.div>
 
         {/* Certifications Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {CERTIFICATIONS.map((cert, index) => (
             <motion.div
               key={index}
@@ -65,20 +65,19 @@ export default function Certifications() {
                 <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-slate-700 group-hover:border-cyan-400 rounded-bl-lg transition-colors z-20" />
                 <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-slate-700 group-hover:border-cyan-400 rounded-br-lg transition-colors z-20" />
 
-                {/* Massive Background Icon (Watermark) */}
-                <cert.icon className="absolute -right-8 -top-8 text-9xl text-slate-800/50 group-hover:text-cyan-500/10 transition-colors duration-500 rotate-12 z-0" />
+                <cert.icon className="absolute -right-6 -top-6 text-7xl md:text-9xl text-slate-800/50 group-hover:text-cyan-500/10 transition-colors duration-500 rotate-12 z-0" />
 
-                <div className="p-8 flex flex-col h-full relative z-10">
+                <div className="p-6 md:p-8 flex flex-col h-full relative z-10">
                   {/* HEADER: COMPANY NAME */}
                   <div className="mb-6 border-b border-white/10 pb-4">
-                    <h3 className="text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-white to-slate-400 group-hover:from-cyan-300 group-hover:to-blue-400 uppercase tracking-tighter transition-all duration-300">
+                    <h3 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-white to-slate-400 group-hover:from-cyan-300 group-hover:to-blue-400 uppercase tracking-tighter transition-all duration-300">
                       {cert.issuer}
                     </h3>
-                    <div className="flex items-center gap-2 mt-2">
-                      <span className="px-2 py-0.5 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-mono font-bold tracking-widest uppercase">
+                    <div className="flex flex-wrap items-center gap-2 mt-2">
+                      <span className="px-2 py-0.5 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] md:text-xs font-mono font-bold tracking-widest uppercase">
                         VERIFIED
                       </span>
-                      <span className="text-lg text-slate-1000 font-mono">
+                      <span className="text-sm md:text-lg text-slate-500 font-mono">
                         // {cert.year}
                       </span>
                     </div>
@@ -86,11 +85,11 @@ export default function Certifications() {
 
                   {/* Content */}
                   <div className="grow">
-                    <h4 className="text-xl font-bold text-white mb-3 leading-tight group-hover:text-cyan-100 transition-colors">
+                    <h4 className="text-lg md:text-xl font-bold text-white mb-3 leading-tight group-hover:text-cyan-100 transition-colors">
                       {cert.name}
                     </h4>
 
-                    <p className="text-sm text-slate-200 leading-relaxed mb-8 font-medium border-l-2 border-slate-800 pl-4 group-hover:border-cyan-500/50 transition-colors">
+                    <p className="text-sm text-slate-300 leading-relaxed mb-8 font-medium border-l-2 border-slate-800 pl-4 group-hover:border-cyan-500/50 transition-colors">
                       {cert.description}
                     </p>
                   </div>

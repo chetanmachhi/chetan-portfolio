@@ -94,21 +94,21 @@ export default function Navbar() {
       className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled
           ? "py-3 bg-slate-900/80 backdrop-blur-md border-b border-white/5 shadow-lg"
-          : "py-6 bg-transparent"
+          : "py-4 md:py-6 bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="flex items-center justify-between">
           <MagneticWrapper>
             <div
-              className="relative group w-14 h-14 cursor-pointer"
+              className="relative group w-12 h-12 md:w-14 md:h-14 cursor-pointer"
               style={{ perspective: "500px" }}
               onClick={(e) => handleScrollTo(e as any, "home")}
             >
               <div className="absolute inset-0 bg-linear-to-tr from-blue-600 to-purple-600 rounded-xl rotate-6 scale-90 opacity-60 blur-md transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:opacity-100 will-change-transform backface-hidden" />
               <div className="absolute inset-0 bg-slate-950 rounded-xl border border-white/10 flex items-center justify-center z-10 shadow-2xl transition-transform duration-200 group-hover:-translate-y-1 group-hover:-rotate-3 will-change-transform backface-hidden">
                 <div className="absolute inset-0 bg-linear-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-xl" />
-                <span className="text-xl font-black text-white tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all duration-200">
+                <span className="text-lg md:text-xl font-black text-white tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all duration-200">
                   CM
                 </span>
               </div>
@@ -161,7 +161,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className="relative z-50 p-3 bg-slate-900/50 backdrop-blur-md rounded-xl border border-white/10 text-white active:scale-95 transition-transform duration-100 will-change-transform backface-hidden"
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
@@ -175,7 +175,9 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-24 z-40 px-6 lg:hidden will-change-transform backface-hidden"
+            className={`fixed inset-x-0 z-40 px-6 lg:hidden will-change-transform backface-hidden ${
+              scrolled ? "top-20" : "top-24"
+            }`}
           >
             <div className="bg-slate-950/95 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6 max-h-[80vh] overflow-y-auto">
               <div className="flex flex-col space-y-2">
@@ -199,6 +201,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                   href={resumeFile}
+                  download="Chetan_Machhi_Resume.pdf"
                   className="mt-4 w-full py-4 rounded-xl bg-linear-to-r from-blue-600 to-purple-600 text-white font-bold text-center flex justify-center items-center gap-2 will-change-transform"
                 >
                   Resume <FileText size={20} />

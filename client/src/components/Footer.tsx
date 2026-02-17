@@ -18,12 +18,12 @@ export default function Footer() {
 
       {/* Top Glowing Divider Line */}
       <div className="absolute top-0 left-0 w-full h-px bg-slate-800/50">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-px bg-linear-to-r from-transparent via-cyan-500 to-transparent shadow-[0_0_10px_cyan]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 md:w-1/3 h-px bg-linear-to-r from-transparent via-cyan-500 to-transparent shadow-[0_0_10px_cyan]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 relative z-10 flex flex-col items-center justify-center text-center">
         {/* "Made With" Text - Brightened */}
-        <p className="text-slate-300 flex items-center gap-2 mb-2 font-medium tracking-wide text-sm">
+        <p className="text-slate-300 flex items-center justify-center flex-wrap gap-2 mb-2 font-medium tracking-wide text-sm">
           Engineered with
           <FaHeart className="text-cyan-400 animate-pulse drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]" />
           using <span className="text-white font-semibold">React</span> &{" "}
