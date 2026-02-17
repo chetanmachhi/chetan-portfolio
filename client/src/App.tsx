@@ -13,14 +13,14 @@ function App() {
   return (
     <div className="min-h-screen font-sans selection:bg-cyan-500/30 text-white relative">
       {/* Global Background Layer */}
-      <Background />
+      {/* <Background /> */}
 
       {/* <Navbar /> */}
 
       {/* Main Content - z-10 ensures it sits ON TOP of the background */}
       <main className="relative z-10">
-        {/* <Hero />
-        <About />
+        {<Hero />
+        /* <About />
         <Skills />
         <Experience />
         <Certifications />

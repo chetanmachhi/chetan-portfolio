@@ -12,9 +12,8 @@ import {
 import { PERSONAL_INFO } from "../constants";
 import profileImg from "../assets/rengoku.jpeg";
 
-// 1. Define the Interface for the props
 interface FloatingIconProps {
-  Icon: React.ElementType; // Allows passing components like Code, Database
+  Icon: React.ElementType;
   color: string;
   bg: string;
   border: string;
@@ -23,7 +22,6 @@ interface FloatingIconProps {
   delay: number;
 }
 
-// 2. Apply the interface to the component
 const FloatingIcon = ({
   Icon,
   color,
@@ -95,6 +93,9 @@ const FloatingIcon = ({
         marginTop: "-32px",
         transformStyle: "preserve-3d",
         z: 100,
+        willChange: "transform, opacity",
+        backfaceVisibility: "hidden",
+        transform: "translate3d(0, 0, 0)",
       }}
       animate={controls}
       onMouseEnter={handleHover}
@@ -277,6 +278,9 @@ export default function Hero() {
               rotateX,
               rotateY,
               transformStyle: "preserve-3d",
+              willChange: "transform",
+              backfaceVisibility: "hidden",
+              transform: "translate3d(0, 0, 0)",
             }}
             className="relative w-80 h-80 md:w-96 md:h-96 flex items-center justify-center"
           >
@@ -288,46 +292,46 @@ export default function Hero() {
               style={{ transform: "translateZ(-50px)" }}
             />
 
-            {/* FLOATING ICONS - Using 'left/top' for static pos, 'x/y' for animation */}
-
-            {/* 1. CODE (Top Center) */}
+            {/* FLOATING ICONS */}
             <FloatingIcon
               Icon={Code}
               color="text-cyan-400"
               bg="bg-cyan-950/50"
               border="border-cyan-500/30"
               initialX={0}
-              initialY={-190} // 190px Up
+              initialY={-190}
               delay={0}
             />
 
-            {/* 2. DATABASE (Bottom Right) */}
             <FloatingIcon
               Icon={Database}
               color="text-blue-400"
               bg="bg-blue-950/50"
               border="border-blue-500/30"
-              initialX={180} // 180px Right
-              initialY={120} // 120px Down
+              initialX={180}
+              initialY={120}
               delay={1.5}
             />
 
-            {/* 3. TERMINAL (Bottom Left) */}
             <FloatingIcon
               Icon={Terminal}
               color="text-emerald-400"
               bg="bg-emerald-950/50"
               border="border-emerald-500/30"
-              initialX={-180} // 180px Left
-              initialY={120} // 120px Down
+              initialX={-180}
+              initialY={120}
               delay={3}
             />
 
-            {/* Profile Picture (Center) */}
+            {/* Profile Picture */}
             <div
               className="absolute inset-[18%] rounded-full bg-slate-900 p-2 cursor-pointer group shadow-2xl z-10"
               onClick={() => setIsProfileExpanded(true)}
-              style={{ transform: "translateZ(30px)" }}
+              style={{
+                transform: "translateZ(30px)",
+                willChange: "transform",
+                backfaceVisibility: "hidden",
+              }}
             >
               <div className="absolute inset-0 bg-linear-to-r from-cyan-600 via-blue-600 to-indigo-600 rounded-full animate-spin-slow opacity-60 group-hover:opacity-100 blur-lg transition-opacity duration-500" />
 
