@@ -12,7 +12,7 @@ import Certifications from "./components/Certifications";
 function App() {
   return (
     <div className="min-h-screen font-sans selection:bg-cyan-500/30 text-white relative">
-      Global Background Layer
+      {/* Global Background Layer */}
       <Background />
       <Navbar />
       {/* Main Content - z-10 ensures it sits ON TOP of the background */}
