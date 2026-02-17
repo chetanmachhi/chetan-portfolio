@@ -26,13 +26,14 @@ export default function Background() {
   }, []);
 
   const particles = useMemo(() => {
-    return [...Array(35)].map(() => ({
+    return [...Array(15)].map(() => ({
+      // Reduced from 35
       xStart: Math.random() * 100,
       xEnd: Math.random() * 100,
-      size: Math.random() * 6 + 3,
-      duration: Math.random() * 10 + 20,
+      size: Math.random() * 5 + 2,
+      duration: Math.random() * 15 + 25,
       delay: Math.random() * 10,
-      opacity: Math.random() * 0.4 + 0.2,
+      opacity: Math.random() * 0.3 + 0.15,
     }));
   }, []);
 
@@ -41,26 +42,27 @@ export default function Background() {
       <div className="absolute inset-0 bg-linear-to-b from-slate-950 via-blue-950/40 to-slate-950" />
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
 
-      {particles.map((p, i) => (
-        <motion.div
-          key={`b-${i}`}
-          className="absolute bg-cyan-300 blur-[2px] rounded-full"
-          initial={{ x: `${p.xStart}vw`, y: "110vh", opacity: 0 }}
-          animate={{
-            y: "-10vh",
-            x: [`${p.xStart}vw`, `${(p.xStart + p.xEnd) / 2}vw`, `${p.xEnd}vw`],
-            opacity: [0, p.opacity, 0],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            ease: "linear",
-            delay: p.delay,
-          }}
-          style={{ width: p.size, height: p.size }}
-        />
-      ))}
-
+      {particles.map((p, i) => {
+        const drift = p.xEnd - p.xStart;
+        return (
+          <div
+            key={`b-${i}`}
+            className="particle"
+            style={
+              {
+                left: `${p.xStart}vw`,
+                top: "100vh",
+                width: `${p.size}px`,
+                height: `${p.size}px`,
+                animation: `particleFloat ${p.duration}s linear infinite`,
+                animationDelay: `${p.delay}s`,
+                "--drift": `${drift}vw`,
+                "--opacity": p.opacity,
+              } as any
+            }
+          />
+        );
+      })}
       <AnimatePresence mode="wait">
         {[...Array(hordeConfig.count)].map((_, i) => (
           <Comet key={`${hordeKey}-${i}`} config={hordeConfig} index={i} />
@@ -70,6 +72,7 @@ export default function Background() {
   );
 }
 
+// Comet stays the same (rare, low impact)
 function Comet({ config, index }: { config: any; index: number }) {
   const delay = index * 0.5;
   const duration = 20;

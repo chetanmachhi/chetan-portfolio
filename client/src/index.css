@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+@keyframes particleFloat {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  15% {
+    opacity: var(--opacity);
+  }
+  85% {
+    opacity: var(--opacity);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift), -120vh, 0);
+  }
+}
+
+.particle {
+  position: absolute;
+  background-color: #67e8f9;
+  border-radius: 9999px;
+  will-change: transform, opacity; /* GPU layer hint */
+  backface-visibility: hidden; /* Forces GPU */
+}
