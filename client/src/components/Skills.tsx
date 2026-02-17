@@ -45,7 +45,7 @@ export default function Skills() {
         clearInterval(timerRef.current);
       }
     };
-  }, []);
+  }, []); // ← removed [index] dependency
 
   const nextStep = () => {
     setIndex((prev) => (prev + 1) % SKILLS.length);
@@ -113,7 +113,14 @@ export default function Skills() {
 
   return (
     <section id="skills" className="relative py-24 overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"
+        style={{
+          willChange: "transform",
+          backfaceVisibility: "hidden",
+          transform: "translate3d(0,0,0)",
+        }}
+      />
 
       <div className="w-full max-w-[95vw] xl:max-w-7xl mx-auto px-4 relative z-10 flex flex-col items-center">
         <div className="text-center mb-12">
@@ -150,6 +157,7 @@ export default function Skills() {
                 style={{
                   willChange: "transform, opacity",
                   backfaceVisibility: "hidden",
+                  transform: "translate3d(0, 0, 0)", // ← added
                 }}
               >
                 {isActive && (
