@@ -19,13 +19,15 @@ function App() {
 
       {/* Main Content - z-10 ensures it sits ON TOP of the background */}
       <main className="relative z-10">
-        {<Hero />
-        /* <About />
-        <Skills />
-        <Experience />
-        <Certifications />
-        <Projects />
-        <Contact /> */}
+        {
+        // <Hero />
+        <About />
+        // <Skills />
+        // <Experience />
+        // <Certifications />
+        // <Projects />
+        // <Contact />
+         }
       </main>
 
       {/* <Footer /> */}

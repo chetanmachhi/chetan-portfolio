@@ -12,19 +12,19 @@ export default function About() {
   return (
     <section id="about" className="relative py-24 md:py-32 overflow-hidden">
       {/* Local Ambient Glow */}
-      <div className="absolute top-1/4 left-0 w-75 md:w-125 h-75 md:h-125 bg-blue-600/20 rounded-full blur-[120px] -translate-x-1/2 pointer-events-none mix-blend-screen" />
-      <div className="absolute bottom-1/4 right-0 w-75 md:w-125 h-75 md:h-125 bg-cyan-600/10 rounded-full blur-[120px] translate-x-1/2 pointer-events-none mix-blend-screen" />
+      <div className="absolute top-1/4 left-0 w-75 md:w-125 h-75 md:h-125 bg-blue-600/20 rounded-full blur-[120px] -translate-x-1/2 pointer-events-none mix-blend-screen will-change-transform backface-hidden" />
+      <div className="absolute bottom-1/4 right-0 w-75 md:w-125 h-75 md:h-125 bg-cyan-600/10 rounded-full blur-[120px] translate-x-1/2 pointer-events-none mix-blend-screen will-change-transform backface-hidden" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* --- LEFT COLUMN: BIO --- */}
-          <div className="space-y-8 sticky top-32">
+          {/* LEFT COLUMN: BIO */}
+          <div className="space-y-8 sticky top-24">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
-              className="relative"
+              className="relative will-change-transform backface-hidden"
             >
               <div className="flex items-center gap-4 mb-2">
                 <div className="p-3 rounded-2xl bg-linear-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/30 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
@@ -42,13 +42,12 @@ export default function About() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-              className="relative group"
+              className="relative group will-change-transform backface-hidden"
             >
               <div className="absolute inset-0 bg-linear-to-r from-cyan-500 to-blue-600 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
               <div className="relative p-6 md:p-8 rounded-3xl bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl">
-                {/* Fixed Overlap: Star is absolute, but text has padding-right (pr-12) to avoid it */}
                 <Sparkles className="absolute top-6 right-6 text-yellow-300 opacity-50 md:opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:rotate-12 group-hover:scale-125 pointer-events-none" />
 
                 <p className="text-lg text-slate-300 leading-loose font-light pr-8 md:pr-12">
@@ -58,19 +57,18 @@ export default function About() {
             </motion.div>
           </div>
 
-          {/* --- RIGHT COLUMN: TIMELINE --- */}
+          {/* RIGHT COLUMN: TIMELINE */}
           <div className="space-y-8 relative pt-4">
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-blue-500 via-cyan-500 to-transparent" />
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-blue-500 via-cyan-500 to-transparent will-change-transform" />
 
             {/* CARD 1: MCA */}
             <motion.div
               initial={{ x: 50, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: 0.2 }}
-              className="relative pl-16 md:pl-24 group"
+              className="relative pl-16 md:pl-24 group will-change-transform backface-hidden"
             >
-              {/* Timeline Dot */}
               <div className="absolute left-8 top-8 -translate-x-1/2 z-10 bg-black rounded-full">
                 <div className="w-4 h-4 rounded-full bg-slate-950 border-2 border-blue-500 relative flex items-center justify-center group-hover:border-cyan-400 transition-colors duration-300">
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -106,11 +104,10 @@ export default function About() {
             <motion.div
               initial={{ x: 50, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: 0.4 }}
-              className="relative pl-16 md:pl-24 group"
+              className="relative pl-16 md:pl-24 group will-change-transform backface-hidden"
             >
-              {/* Timeline Dot */}
               <div className="absolute left-8 top-8 -translate-x-1/2 z-10 bg-black rounded-full">
                 <div className="w-4 h-4 rounded-full bg-slate-950 border-2 border-emerald-500 relative flex items-center justify-center group-hover:border-emerald-400 transition-colors duration-300">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
