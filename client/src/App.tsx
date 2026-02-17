@@ -15,13 +15,13 @@ function App() {
       {/* Global Background Layer */}
       {/* <Background /> */}
 
-      {/* <Navbar /> */}
+      <Navbar />
 
       {/* Main Content - z-10 ensures it sits ON TOP of the background */}
       <main className="relative z-10">
         {
         // <Hero />
-        <About />
+        // <About />
         // <Skills />
         // <Experience />
         // <Certifications />

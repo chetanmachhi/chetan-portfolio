@@ -25,7 +25,7 @@ export default function Navbar() {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80; // Offset for fixed navbar height
+      const offset = 80;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = element.getBoundingClientRect().top;
       const elementPosition = elementRect - bodyRect;
@@ -36,7 +36,7 @@ export default function Navbar() {
         behavior: "smooth",
       });
     }
-    setIsOpen(false); // Close mobile menu if open
+    setIsOpen(false);
   };
 
   const MagneticWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -66,14 +66,19 @@ export default function Navbar() {
         ref={ref}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{ x: springX, y: springY }}
+        style={{
+          x: springX,
+          y: springY,
+          willChange: "transform",
+          backfaceVisibility: "hidden",
+          transform: "translate3d(0,0,0)",
+        }}
       >
         {children}
       </motion.div>
     );
   };
 
-  // Added "Certifications" to the list
   const navs = [
     "Home",
     "About",
@@ -98,11 +103,11 @@ export default function Navbar() {
             <div
               className="relative group w-14 h-14 cursor-pointer"
               style={{ perspective: "500px" }}
-              onClick={(e) => handleScrollTo(e as any, "home")} // Scroll to top on logo click
+              onClick={(e) => handleScrollTo(e as any, "home")}
             >
-              <div className="absolute inset-0 bg-linear-to-tr from-blue-600 to-purple-600 rounded-xl rotate-6 scale-90 opacity-60 blur-md transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:opacity-100"></div>
-              <div className="absolute inset-0 bg-slate-950 rounded-xl border border-white/10 flex items-center justify-center z-10 shadow-2xl transition-transform duration-200 group-hover:-translate-y-1 group-hover:-rotate-3">
-                <div className="absolute inset-0 bg-linear-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-xl"></div>
+              <div className="absolute inset-0 bg-linear-to-tr from-blue-600 to-purple-600 rounded-xl rotate-6 scale-90 opacity-60 blur-md transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:opacity-100 will-change-transform backface-hidden" />
+              <div className="absolute inset-0 bg-slate-950 rounded-xl border border-white/10 flex items-center justify-center z-10 shadow-2xl transition-transform duration-200 group-hover:-translate-y-1 group-hover:-rotate-3 will-change-transform backface-hidden">
+                <div className="absolute inset-0 bg-linear-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-xl" />
                 <span className="text-xl font-black text-white tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all duration-200">
                   CM
                 </span>
@@ -119,9 +124,9 @@ export default function Navbar() {
                   onClick={(e) => handleScrollTo(e, item.toLowerCase())}
                   className="group relative px-4 py-2 block"
                 >
-                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 overflow-hidden border border-white/10">
-                    <div className="absolute inset-[-250%] bg-[conic-gradient(from_0deg,transparent_20%,#3b82f6_50%,transparent_80%)] animate-[spin_3s_linear_infinite]"></div>
-                    <div className="absolute inset-px bg-slate-950/90 backdrop-blur-md rounded-xl"></div>
+                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 overflow-hidden border border-white/10 will-change-transform backface-hidden">
+                    <div className="absolute inset-[-250%] bg-[conic-gradient(from_0deg,transparent_20%,#3b82f6_50%,transparent_80%)] animate-[spin_3s_linear_infinite]" />
+                    <div className="absolute inset-px bg-slate-950/90 backdrop-blur-md rounded-xl" />
                   </div>
                   <span className="relative z-10 text-sm font-bold text-slate-300 group-hover:text-white transition-colors duration-200 uppercase tracking-wide">
                     {item}
@@ -134,9 +139,9 @@ export default function Navbar() {
               <a
                 href={resumeFile}
                 download="Chetan_Machhi_Resume.pdf"
-                className="relative overflow-hidden ml-4 px-6 py-2.5 rounded-xl bg-linear-to-r from-blue-600 to-purple-600 text-white font-bold shadow-lg group flex items-center gap-2"
+                className="relative overflow-hidden ml-4 px-6 py-2.5 rounded-xl bg-linear-to-r from-blue-600 to-purple-600 text-white font-bold shadow-lg group flex items-center gap-2 will-change-transform backface-hidden"
               >
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-500 bg-linear-to-r from-transparent via-white/30 to-transparent z-20"></div>
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-500 bg-linear-to-r from-transparent via-white/30 to-transparent z-20" />
                 <span className="relative z-10 flex items-center gap-2">
                   Resume <FileText size={18} />
                 </span>
@@ -154,7 +159,7 @@ export default function Navbar() {
           <div className="lg:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="relative z-50 p-3 bg-slate-900/50 backdrop-blur-md rounded-xl border border-white/10 text-white active:scale-95 transition-transform duration-100"
+              className="relative z-50 p-3 bg-slate-900/50 backdrop-blur-md rounded-xl border border-white/10 text-white active:scale-95 transition-transform duration-100 will-change-transform backface-hidden"
             >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
@@ -170,7 +175,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-24 z-40 px-6 lg:hidden"
+            className="fixed inset-0 top-24 z-40 px-6 lg:hidden will-change-transform backface-hidden"
           >
             <div className="bg-slate-950/95 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6 max-h-[80vh] overflow-y-auto">
               <div className="flex flex-col space-y-2">
@@ -182,7 +187,7 @@ export default function Navbar() {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className="flex items-center justify-between text-lg font-bold text-slate-300 hover:text-white hover:bg-white/5 p-4 rounded-xl transition-all duration-200"
+                    className="flex items-center justify-between text-lg font-bold text-slate-300 hover:text-white hover:bg-white/5 p-4 rounded-xl transition-all duration-200 will-change-transform"
                   >
                     {item}
                     <ArrowRight size={16} className="opacity-50" />
@@ -194,7 +199,7 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                   href={resumeFile}
-                  className="mt-4 w-full py-4 rounded-xl bg-linear-to-r from-blue-600 to-purple-600 text-white font-bold text-center flex justify-center items-center gap-2"
+                  className="mt-4 w-full py-4 rounded-xl bg-linear-to-r from-blue-600 to-purple-600 text-white font-bold text-center flex justify-center items-center gap-2 will-change-transform"
                 >
                   Resume <FileText size={20} />
                 </motion.a>
