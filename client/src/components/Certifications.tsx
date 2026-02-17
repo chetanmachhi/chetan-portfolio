@@ -6,13 +6,27 @@ export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="relative py-24 bg-transparent overflow-hidden"
+      className="relative py-24 bg-transparent overflow-hidden contain-paint"
     >
       {/* Background Grid & Glows */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(6,182,212,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.05)_1px,transparent_1px)] bg-size-[40px_40px] opacity-20" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px]" />
+        <div
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px]"
+          style={{
+            willChange: "transform",
+            backfaceVisibility: "hidden",
+            transform: "translate3d(0,0,0)",
+          }}
+        />
+        <div
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px]"
+          style={{
+            willChange: "transform",
+            backfaceVisibility: "hidden",
+            transform: "translate3d(0,0,0)",
+          }}
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -44,7 +58,7 @@ export default function Certifications() {
               className="group relative h-full"
             >
               {/* Card Container */}
-              <div className="relative h-full flex flex-col rounded-2xl bg-slate-900/40 backdrop-blur-md border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] group-hover:-translate-y-2 overflow-hidden">
+              <div className="relative h-full flex flex-col rounded-2xl bg-slate-900/40 backdrop-blur-sm border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] group-hover:-translate-y-2 overflow-hidden will-change-transform backface-hidden">
                 {/* HUD Corner Brackets */}
                 <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-slate-700 group-hover:border-cyan-400 rounded-tl-lg transition-colors z-20" />
                 <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-slate-700 group-hover:border-cyan-400 rounded-tr-lg transition-colors z-20" />
@@ -87,7 +101,7 @@ export default function Certifications() {
                       href={cert.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative block w-full py-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-center overflow-hidden group/btn transition-all"
+                      className="relative block w-full py-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-center overflow-hidden group/btn transition-all will-change-transform"
                     >
                       {/* Button Scanline Effect */}
                       <div className="absolute inset-0 w-full h-full bg-linear-to-r from-transparent via-cyan-500/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-in-out" />

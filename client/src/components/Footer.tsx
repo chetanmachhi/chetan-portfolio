@@ -3,10 +3,17 @@ import { PERSONAL_INFO } from "../constants";
 
 export default function Footer() {
   return (
-    <footer className="relative py-8 bg-transparent overflow-hidden border-t border-slate-800/50">
+    <footer className="relative py-8 bg-transparent overflow-hidden border-t border-slate-800/50 contain-paint">
       {/* Background Glow (Bottom Center) */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -bottom-12.5 left-1/2 -translate-x-1/2 w-75 h-25 bg-cyan-500/10 rounded-full blur-[80px]" />
+        <div
+          className="absolute -bottom-12.5 left-1/2 -translate-x-1/2 w-75 h-25 bg-cyan-500/10 rounded-full blur-[60px]"
+          style={{
+            willChange: "transform",
+            backfaceVisibility: "hidden",
+            transform: "translate3d(0,0,0)",
+          }}
+        />
       </div>
 
       {/* Top Glowing Divider Line */}

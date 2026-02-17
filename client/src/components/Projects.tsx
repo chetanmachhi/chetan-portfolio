@@ -6,7 +6,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative py-24 bg-transparent overflow-hidden"
+      className="relative py-24 bg-transparent overflow-hidden contain-paint"
     >
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(15,23,42,0.8)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.8)_1px,transparent_1px)] bg-size-[60px_60px] opacity-30" />
@@ -38,8 +38,7 @@ export default function Projects() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group relative h-full"
             >
-              {/* UPDATED: Darker background (slate-950/80) for contrast */}
-              <div className="relative h-full flex flex-col bg-slate-950/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-500 group-hover:-translate-y-2">
+              <div className="relative h-full flex flex-col bg-slate-950/80 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-500 group-hover:-translate-y-2 will-change-transform backface-hidden">
                 <div className="h-1 w-full bg-linear-to-r from-blue-500 via-purple-500 to-blue-500 opacity-50 group-hover:opacity-100 transition-opacity" />
 
                 <div className="p-8 flex flex-col h-full">
@@ -56,7 +55,6 @@ export default function Projects() {
                     <h3 className="text-2xl font-extrabold text-white mb-3 group-hover:text-blue-300 transition-colors">
                       {project.title}
                     </h3>
-                    {/* UPDATED: Increased text size to text-base and color to slate-200 */}
                     <p className="text-slate-200 text-base leading-relaxed font-medium border-l-2 border-slate-700 pl-4">
                       {project.description}
                     </p>
@@ -73,7 +71,6 @@ export default function Projects() {
                             size={14}
                             className="text-blue-400 mt-1 shrink-0"
                           />
-                          {/* UPDATED: Removed font-light, added font-medium and slate-200 */}
                           <span className="text-slate-200 font-medium leading-relaxed">
                             {point}
                           </span>
