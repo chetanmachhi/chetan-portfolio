@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { SKILLS, SKILL_CATEGORIES } from "../constants";
@@ -6,12 +6,46 @@ import { SKILLS, SKILL_CATEGORIES } from "../constants";
 export default function Skills() {
   const [index, setIndex] = useState(0);
 
+  const isScrollingRef = useRef(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      nextStep();
+    const handleScroll = () => {
+      isScrollingRef.current = true;
+
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 150);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      if (!isScrollingRef.current) {
+        setIndex((prev) => (prev + 1) % SKILLS.length);
+      }
     }, 3000);
-    return () => clearInterval(timer);
-  }, [index]);
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, []);
 
   const nextStep = () => {
     setIndex((prev) => (prev + 1) % SKILLS.length);
@@ -21,54 +55,42 @@ export default function Skills() {
     setIndex((prev) => (prev - 1 + SKILLS.length) % SKILLS.length);
   };
 
-
   const getCardStyle = (itemIndex: number) => {
     const total = SKILLS.length;
     let distance = (itemIndex - index + total) % total;
     if (distance > total / 2) distance -= total;
 
-    // Active Card (Center)
     if (distance === 0) {
       return {
         x: 0,
         scale: 1,
-        opacity: 1, // Fully visible
+        opacity: 1,
         zIndex: 10,
         rotateY: 0,
-        filter: "brightness(1.1)", // Slight highlight
       };
-    }
-    // Side Cards (Neighbors)
-    else if (Math.abs(distance) === 1) {
+    } else if (Math.abs(distance) === 1) {
       return {
         x: distance * 300,
         scale: 0.9,
-        opacity: 0.7, // Slightly transparent but readable
+        opacity: 0.7,
         zIndex: 5,
         rotateY: distance * -15,
-        filter: "brightness(0.8)", // Dim the side cards slightly
       };
-    }
-    // Far Cards
-    else if (Math.abs(distance) === 2) {
+    } else if (Math.abs(distance) === 2) {
       return {
         x: distance * 250,
         scale: 0.8,
-        opacity: 0.3, // Fade these out more
+        opacity: 0.3,
         zIndex: 1,
         rotateY: distance * -30,
-        filter: "brightness(0.6) blur(2px)", // Add blur to distant cards for depth
       };
-    }
-    // Hidden
-    else {
+    } else {
       return {
         x: 0,
         scale: 0,
         opacity: 0,
         zIndex: 0,
         rotateY: 0,
-        filter: "none",
       };
     }
   };
@@ -125,16 +147,18 @@ export default function Skills() {
                 }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
                 onClick={() => setIndex(i)}
-                whileHover={{
-                  borderColor: "rgba(6,182,212,0.5)",
-                  boxShadow: "0 0 30px rgba(6,182,212,0.2)",
+                style={{
+                  willChange: "transform, opacity",
+                  backfaceVisibility: "hidden",
                 }}
               >
                 {isActive && (
                   <div className="absolute inset-0 bg-linear-to-b from-cyan-500/10 to-transparent rounded-3xl pointer-events-none" />
                 )}
                 <div
-                  className={`p-5 rounded-full bg-black/40 border border-white/5 ${isActive ? "scale-110 shadow-lg shadow-cyan-500/20" : ""} transition-all duration-500`}
+                  className={`p-5 rounded-full bg-black/40 border border-white/5 ${
+                    isActive ? "scale-110 shadow-lg shadow-cyan-500/20" : ""
+                  } transition-all duration-500`}
                 >
                   <skill.icon
                     className={`text-6xl ${skill.color} filter drop-shadow-lg`}
@@ -185,7 +209,9 @@ export default function Skills() {
                   className={`text-lg ${skill.color} filter drop-shadow-md`}
                 />
                 <span
-                  className={`text-xs font-medium whitespace-nowrap ${index === i ? "text-white" : "text-slate-200"}`}
+                  className={`text-xs font-medium whitespace-nowrap ${
+                    index === i ? "text-white" : "text-slate-200"
+                  }`}
                 >
                   {skill.name}
                 </span>
@@ -206,6 +232,10 @@ export default function Skills() {
               key={idx}
               variants={itemVariants}
               className="relative group bg-slate-900/40 backdrop-blur-md border border-slate-800 p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] hover:-translate-y-2"
+              style={{
+                willChange: "transform, box-shadow",
+                backfaceVisibility: "hidden",
+              }}
             >
               <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
