@@ -11,7 +11,7 @@ import Certifications from "./components/Certifications";
 
 function App() {
   return (
-    <div className="min-h-screen font-sans selection:bg-cyan-500/30 text-white relative">
+    <div className="min-h-screen font-sans selection:bg-cyan-500/30 text-white relative overflow-x-hidden bg-transparent">
       {/* Global Background Layer */}
       <Background />
       <Navbar />

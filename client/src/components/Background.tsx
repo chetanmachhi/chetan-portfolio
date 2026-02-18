@@ -18,7 +18,7 @@ export default function Background() {
       size: Math.random() * 5 + 2,
       duration: Math.random() * 15 + 25,
       delay: Math.random() * 10,
-      opacity: Math.random() * 0.3 + 0.15,
+      opacity: Math.random() * 0.3 + 0.40,
     }));
     setParticles(newParticles);
   }, []);
@@ -40,7 +40,7 @@ export default function Background() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-slate-950">
+    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[#030712]">
       {/* Inject Keyframes for the Particle Animation */}
       <style>{`
         @keyframes particleFloat {
@@ -62,7 +62,7 @@ export default function Background() {
       `}</style>
 
       {/* Background Gradients & Noise */}
-      <div className="absolute inset-0 bg-linear-to-b from-slate-950 via-blue-950/20 to-slate-950" />
+      <div className="absolute inset-0 bg-linear-to-b from-[#0a0f25] via-[#030712] to-[#020617]" />
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay" />
 
       {/* Floating Particles */}
@@ -71,7 +71,7 @@ export default function Background() {
         return (
           <div
             key={`b-${i}`}
-            className="absolute rounded-full bg-slate-500 blur-[1px]"
+            className="absolute rounded-full bg-blue-300 blur-[3px] shadow-[0_0_12px_rgba(96,165,250,0.6)]"
             style={
               {
                 left: `${p.xStart}vw`,
