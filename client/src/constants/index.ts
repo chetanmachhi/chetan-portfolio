@@ -196,6 +196,19 @@ export const CERTIFICATIONS = [
 
 export const PROJECTS = [
   {
+    title: "OmniRouter: Smart Load Balancer",
+    category: "Distributed Systems",
+    tech: ["Java Spring Boot", "Redis", "Express.js", "React"],
+    description: "A self-healing orchestration layer that routes traffic based on real-time worker health scores.",
+    highlights: [
+      "Implemented a 'Brain' that calculates health scores using CPU and volatility.",
+      "Integrated Redis-based service discovery for dynamic worker registration.",
+      "Built a fault-tolerant dispatcher that auto-retries on failed nodes.",
+      "Developed a live dashboard to monitor and stress-test the cluster."
+    ],
+    link: "/projects/omnirouter"
+  },
+  {
     title: "Real-Time Email Dispatch",
     category: "Full Stack System",
     tech: ["Java Spring Boot", "React", "Bulk CSV", "Real-Time API"],
@@ -261,3 +274,5 @@ export const PROJECTS = [
     ],
   },
 ];
+export const OMNI_ROUTER_BRAIN_URL = "http://localhost:8080/api/dispatch";
+export const WORKER_PORTS = [4001, 4002, 4006];

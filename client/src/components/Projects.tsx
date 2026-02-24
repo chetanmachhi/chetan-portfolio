@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { FolderGit2, Layers, Zap, Terminal } from "lucide-react";
+import { FolderGit2, Layers, Zap, Terminal, ExternalLink } from "lucide-react";
 import { PROJECTS } from "../constants";
+import { Link } from "react-router-dom";
 
 export default function Projects() {
   return (
@@ -39,6 +40,15 @@ export default function Projects() {
               className="group relative h-full"
             >
               <div className="relative h-full flex flex-col bg-slate-950/80 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-500 group-hover:-translate-y-2 will-change-transform backface-hidden">
+
+                {project.link && (
+                  <Link
+                    to={project.link}
+                    className="absolute inset-0 z-20 cursor-pointer"
+                    aria-label={`Open ${project.title}`}
+                  />
+                )}
+
                 <div className="h-1 w-full bg-linear-to-r from-blue-500 via-purple-500 to-blue-500 opacity-50 group-hover:opacity-100 transition-opacity" />
 
                 <div className="p-6 md:p-8 flex flex-col h-full">
@@ -46,9 +56,12 @@ export default function Projects() {
                     <div className="p-3 rounded-xl bg-slate-900 border border-slate-700 text-blue-400 group-hover:text-white group-hover:bg-blue-600 transition-colors shadow-lg">
                       <FolderGit2 size={24} />
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-600 text-[10px] md:text-xs font-bold font-mono text-slate-300">
-                      {project.category}
-                    </span>
+                    <div className="flex gap-2 items-center">
+                      {project.link && <ExternalLink size={14} className="text-blue-400" />}
+                      <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-600 text-[10px] md:text-xs font-bold font-mono text-slate-300">
+                        {project.category}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="mb-6">
@@ -79,7 +92,7 @@ export default function Projects() {
                     </ul>
                   </div>
 
-                  <div className="mt-auto pt-6 border-t border-white/10">
+                  <div className="mt-auto pt-6 border-t border-white/10 relative z-30">
                     <div className="flex flex-wrap gap-2">
                       {project.tech.map((tech) => (
                         <span
