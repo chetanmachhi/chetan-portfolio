@@ -7,7 +7,7 @@ import {
   useSpring,
 } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom"; // Add these
-import resumeFile from "../assets/chetan-resume-2026.pdf";
+import resumeFile from "../assets/chetan-resume-2026-Feb.pdf";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
