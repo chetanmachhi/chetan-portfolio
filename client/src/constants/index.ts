@@ -31,6 +31,18 @@ import {
   SiMeta,
 } from "react-icons/si";
 
+const isProd = import.meta.env.PROD;
+
+export const BRAIN_URL = isProd
+  ? "https://your-prod-brain-url.com"
+  : "http://localhost:8080";
+
+export const MUSCLE_URL = isProd
+  ? "https://your-prod-muscle-url.com"
+  : "http://localhost:4000"; 
+
+export const DISPATCH_API = `${BRAIN_URL}/api/dispatch`;
+
 export const PERSONAL_INFO = {
   name: "Chetan Machhi",
   role: "Full Stack Developer",
@@ -274,5 +286,3 @@ export const PROJECTS = [
     ],
   },
 ];
-export const OMNI_ROUTER_BRAIN_URL = "http://localhost:8080/api/dispatch";
-export const WORKER_PORTS = [4001, 4002, 4006];
