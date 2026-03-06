@@ -111,7 +111,7 @@ export default function OmniRouter() {
     const blastLoad = async () => {
         setIsFiring(true);
         try {
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 10; i++) {
                 const tempId = Math.random().toString(36).substr(2, 9);
                 const newLog: DispatchLog = {
                     id: tempId,
@@ -139,7 +139,7 @@ export default function OmniRouter() {
                         ));
                     });
 
-                if (i < 5) await new Promise(r => setTimeout(r, 1000));
+                if (i < 10) await new Promise(r => setTimeout(r, 1000));
             }
         } finally {
             setIsFiring(false);
