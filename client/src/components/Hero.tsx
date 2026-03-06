@@ -19,7 +19,7 @@ import {
 } from "framer-motion";
 import { PERSONAL_INFO } from "../constants";
 import profileImg from "../assets/rengoku.jpeg";
-import resumeFile from "../assets/chetan-resume-2026.pdf";
+import resumeFile from "../assets/chetan-resume-2026-Feb.pdf";
 
 interface FloatingIconProps {
   Icon: React.ElementType;
