@@ -43,7 +43,7 @@ export default function Skills() {
       if (!isScrollingRef.current) {
         setIndex((prev) => (prev + 1) % SKILLS.length);
       }
-    }, 3000);
+    }, 2000);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
@@ -206,7 +206,7 @@ export default function Skills() {
             <button
               key={i}
               onClick={() => setIndex(i)}
-              className={`relative group overflow-hidden flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 min-w-[100px] md:min-w-[120px] ${
+              className={`relative group overflow-hidden flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 min-w-25 md:min-w-30 ${
                 index === i
                   ? "bg-slate-900 border-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.3)] scale-105 z-10"
                   : "bg-slate-900/40 border-slate-700 hover:border-slate-500"

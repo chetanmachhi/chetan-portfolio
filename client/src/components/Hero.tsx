@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import {
   Mail,
@@ -9,16 +9,9 @@ import {
   ArrowRight,
   FileText,
 } from "lucide-react";
-import {
-  motion,
-  useSpring,
-  useMotionValue,
-  useTransform,
-  AnimatePresence,
-  useAnimation,
-} from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { PERSONAL_INFO } from "../constants";
-import profileImg from "../assets/rengoku.jpeg";
+import profileImg from "../assets/chetan-photo.jpeg";
 import resumeFile from "../assets/chetan-resume-2026-Feb.pdf";
 
 interface FloatingIconProps {
@@ -102,9 +95,7 @@ const FloatingIcon = ({
         marginTop: "-32px",
         transformStyle: "preserve-3d",
         z: 100,
-        willChange: "transform, opacity",
         backfaceVisibility: "hidden",
-        transform: "translate3d(0, 0, 0)",
       }}
       animate={controls}
       onMouseEnter={handleHover}
@@ -117,25 +108,8 @@ const FloatingIcon = ({
 
 export default function Hero() {
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
-  const containerRef = useRef(null);
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseX = useSpring(x, { stiffness: 100, damping: 30 });
-  const mouseY = useSpring(y, { stiffness: 100, damping: 30 });
-
-  const rotateX = useTransform(mouseY, [-0.5, 0.5], ["15deg", "-15deg"]);
-  const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-15deg", "15deg"]);
-
-  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
-    const { currentTarget, clientX, clientY } = e;
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    x.set((clientX - left - width / 2) / width);
-    y.set((clientY - top - height / 2) / height);
-  }
-
   const [textIndex, setTextIndex] = useState(0);
+
   const roles = [
     "Full Stack Developer",
     "Backend Architect",
@@ -151,19 +125,15 @@ export default function Hero() {
 
   return (
     <section
-      ref={containerRef}
       id="home"
       className="min-h-screen flex items-center justify-center pt-24 pb-10 relative overflow-hidden"
-      onMouseMove={handleMouseMove}
     >
-      {/* Ambient Glows */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-800/10 blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-blue-800/10 blur-[120px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10 w-full">
-        {/* LEFT COLUMN */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -223,7 +193,6 @@ export default function Hero() {
             transition={{ delay: 0.6 }}
             className="flex flex-wrap items-center justify-center lg:justify-start gap-5"
           >
-            {/* Primary Contact Button */}
             <a
               href="#contact"
               className="group relative px-8 py-4 bg-linear-to-r from-blue-600 to-cyan-600 text-white rounded-full font-bold overflow-hidden transition-all hover:scale-105 shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_40px_rgba(37,99,235,0.6)] flex items-center gap-2"
@@ -285,26 +254,13 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* RIGHT COLUMN */}
         <motion.div
           className="order-1 lg:order-2 flex justify-center lg:justify-end perspective-1000"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          style={{ perspective: 1000 }}
         >
-          <motion.div
-            style={{
-              rotateX,
-              rotateY,
-              transformStyle: "preserve-3d",
-              willChange: "transform",
-              backfaceVisibility: "hidden",
-              transform: "translate3d(0, 0, 0)",
-            }}
-            className="relative w-80 h-80 md:w-96 md:h-96 flex items-center justify-center scale-[0.6] xs:scale-[0.7] md:scale-100"
-          >
-            {/* Background Glows */}
+          <div className="relative w-80 h-80 md:w-96 md:h-96 flex items-center justify-center scale-[0.6] xs:scale-[0.7] md:scale-100">
             <div className="absolute inset-0 bg-linear-to-tr from-cyan-600/30 to-blue-600/30 rounded-full blur-3xl animate-pulse" />
 
             <div
@@ -312,7 +268,6 @@ export default function Hero() {
               style={{ transform: "translateZ(-50px)" }}
             />
 
-            {/* FLOATING ICONS */}
             <FloatingIcon
               Icon={Code}
               color="text-cyan-400"
@@ -343,13 +298,11 @@ export default function Hero() {
               delay={3}
             />
 
-            {/* Profile Picture */}
             <div
               className="absolute inset-[18%] rounded-full bg-slate-900 p-2 cursor-pointer group shadow-2xl z-10"
               onClick={() => setIsProfileExpanded(true)}
               style={{
                 transform: "translateZ(30px)",
-                willChange: "transform",
                 backfaceVisibility: "hidden",
               }}
             >
@@ -367,7 +320,7 @@ export default function Hero() {
                 />
               </div>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
 
