@@ -196,6 +196,33 @@ export const CERTIFICATIONS = [
 
 export const PROJECTS = [
   {
+    title: "Solar Chat Pro",
+    category: "SaaS & AI Automation",
+    tech: ["React", "Express", "WhatsApp API", "MongoDB", "AWS"],
+    description:
+      "A cross-platform SaaS for the solar industry, enabling operations via web and WhatsApp chatbot.",
+    highlights: [
+      "Automated customer registration and quotation management for solar workflows.",
+      "Integrated secure payment processing for seamless industry transactions.",
+      "Enabled users to generate, manage, and download PDF quotations via web or WhatsApp.",
+      "Implemented a conversational chatbot interface to handle core business logic through simple chat.",
+    ],
+    link: "https://solarchat.pro",
+  },
+  {
+    title: "Bento Bits",
+    category: "Full Stack Portfolio",
+    tech: ["React", "Express", "TypeScript", "Monorepo"],
+    description:
+      "High-performance monorepo portfolio showcasing projects through a modern Bento-grid.",
+    highlights: [
+      "Built using a monorepo structure for efficient code sharing.",
+      "Features a modern, high-performance Bento-grid UI layout.",
+      "Optimized for speed and SEO to showcase professional work.",
+    ],
+    link: "https://bentobits.in/",
+  },
+  {
     title: "Real-Time Email Dispatch",
     category: "Full Stack System",
     tech: ["Java Spring Boot", "React", "Bulk CSV", "Real-Time API"],
@@ -259,5 +286,6 @@ export const PROJECTS = [
       "Prioritized mobile-first design principles to ensure seamless user experience.",
       "Focused on performance optimization to achieve high efficiency and load speeds.",
     ],
+    link: "https://phonon.io",
   },
 ];
