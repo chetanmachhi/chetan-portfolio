@@ -12,7 +12,7 @@ import {
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import { PERSONAL_INFO } from "../constants";
 import profileImg from "../assets/chetan-photo.jpeg";
-import resumeFile from "../assets/chetan-resume-2026-Feb.pdf";
+import resumeFile from "../assets/chetan-apr-resume-2026.pdf";
 
 interface FloatingIconProps {
   Icon: React.ElementType;

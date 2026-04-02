@@ -6,7 +6,7 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import resumeFile from "../assets/chetan-resume-2026-Feb.pdf";
+import resumeFile from "../assets/chetan-apr-resume-2026.pdf";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
