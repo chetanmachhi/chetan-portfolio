@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "npm run dev -w client",
+    "dev:server": "npm run dev -w server",
+    "build": "npm run build -w client",
+    "preview": "npm run preview -w client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

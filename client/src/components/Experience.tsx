@@ -1,204 +1,109 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { Briefcase, CalendarClock, MapPin } from "lucide-react";
-import { EXPERIENCES } from "../constants";
+import { useProfile } from "../profile";
+import { Reveal, SectionHeader, WindowBar, card, slugify } from "./ui";
+
+/*
+ * EXPERIENCE — compact "mission log": roles are tabs (left, or a scroll row on mobile),
+ * the selected role opens in one detail panel. Much shorter than three big stacked cards.
+ */
 
 export default function Experience() {
+  const [sel, setSel] = useState(0);
+  const { experiences } = useProfile();
+  const job = experiences[sel];
+  const isCurrent = /present/i.test(job.period);
+
   return (
-    <section id="experience" className="relative py-16 md:py-24 bg-transparent">
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-50">
-        <div
-          className="absolute top-1/4 right-10 w-64 h-64 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-3xl"
-          style={{
-            willChange: "transform",
-            backfaceVisibility: "hidden",
-            transform: "translate3d(0,0,0)",
-          }}
-        />
-        <div
-          className="absolute bottom-1/4 left-10 w-64 h-64 md:w-96 md:h-96 bg-purple-600/10 rounded-full blur-3xl"
-          style={{
-            willChange: "transform",
-            backfaceVisibility: "hidden",
-            transform: "translate3d(0,0,0)",
-          }}
-        />
-      </div>
+    <section id="experience" className="relative py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-6">
+        <SectionHeader index="03" label="Experience" title="Professional" accent="journey" />
 
-      <div className="max-w-6xl mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16 md:mb-24"
-        >
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
-            Professional{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-purple-500">
-              Journey
-            </span>
-          </h2>
-          <div className="h-1 w-32 bg-linear-to-r from-cyan-500 via-blue-500 to-purple-500 mx-auto rounded-full shadow-lg shadow-cyan-500/50" />
-        </motion.div>
+        <Reveal className="mt-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-4">
+            {/* Role tabs */}
+            <div role="tablist" aria-label="Roles" className="relative flex lg:flex-col lg:self-start gap-2 overflow-x-auto pb-2 lg:pb-0 -mx-6 px-6 lg:mx-0 lg:px-0">
+              {/* timeline rail (desktop) */}
+              <div className="pointer-events-none absolute left-[27px] top-6 bottom-6 hidden w-px bg-linear-to-b from-cyan-400/40 via-white/10 to-transparent lg:block" />
+              {experiences.map((e, i) => {
+                const isActive = i === sel;
+                return (
+                  <button
+                    key={e.company}
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setSel(i)}
+                    className={`relative flex shrink-0 items-start gap-4 rounded-2xl border p-4 text-left transition-colors w-64 lg:w-auto ${
+                      isActive ? "border-cyan-400/40 bg-cyan-400/7" : "border-white/10 bg-slate-950/40 hover:border-white/20"
+                    }`}
+                  >
+                    <span
+                      className={`relative z-10 mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full border font-mono text-[10px] ${
+                        isActive ? "border-cyan-300 bg-cyan-400 text-slate-950" : "border-white/20 bg-slate-950 text-slate-500"
+                      }`}
+                    >
+                      {i + 1}
+                    </span>
+                    <span className="min-w-0">
+                      <span className={`block font-bold ${isActive ? "text-white" : "text-slate-300"}`}>{e.company}</span>
+                      <span className="block truncate text-sm text-slate-400">{e.role}</span>
+                      <span className="mt-1 block font-mono text-[11px] text-slate-500">{e.period}</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
 
-        <div className="relative flex flex-col gap-12">
-          {/* Vertical Line */}
-          <div className="absolute left-3 md:left-8 top-0 bottom-0 w-0.5 bg-slate-800">
-            <div className="absolute inset-0 bg-linear-to-b from-cyan-500 via-purple-500 to-transparent opacity-40" />
-          </div>
+            {/* Detail panel */}
+            <div role="tabpanel" className={`${card} overflow-hidden`}>
+              <WindowBar
+                path={`~/experience/${slugify(job.company)}.log`}
+                right={
+                  isCurrent ? (
+                    <span className="flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-400/5 px-2.5 py-0.5 font-mono text-[10px] text-emerald-300">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> CURRENT
+                    </span>
+                  ) : null
+                }
+              />
+              <div key={sel} className="fade-up p-6 md:p-8">
+                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-extrabold text-white">{job.role}</h3>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+                      <span className="flex items-center gap-1.5 font-semibold text-cyan-300">
+                        <Briefcase size={14} /> {job.company}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-slate-400">
+                        <MapPin size={14} /> {job.location}
+                      </span>
+                    </div>
+                  </div>
+                  <span className="flex w-fit items-center gap-2 rounded-lg border border-white/10 bg-slate-950/60 px-3 py-1.5 font-mono text-xs text-slate-300">
+                    <CalendarClock size={13} className="text-cyan-400" /> {job.period}
+                  </span>
+                </div>
 
-          {EXPERIENCES.map((job, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative pl-10 md:pl-24 w-full"
-            >
-              <div className="absolute left-1.5 md:left-6 top-10 w-3.5 h-3.5 md:w-4 md:h-4 bg-slate-900 border-2 border-cyan-400 rounded-full z-20 shadow-lg shadow-cyan-400">
-                <div className="absolute inset-0 bg-cyan-400 animate-ping opacity-50 rounded-full" />
+                <ul className="mt-6 space-y-3">
+                  {job.description.map((point, i) => (
+                    <li key={i} className="flex gap-4">
+                      <span className="mt-0.5 font-mono text-xs text-cyan-400/70">{String(i + 1).padStart(2, "0")}</span>
+                      <p className="text-slate-300 leading-relaxed">{point}</p>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-7 flex flex-wrap gap-2 border-t border-white/10 pt-5">
+                  {job.tech.map((t) => (
+                    <span key={t} className="rounded-md border border-white/10 bg-white/3 px-2.5 py-1 font-mono text-xs text-slate-300">
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
-
-              <motion.div
-                initial="initial"
-                whileHover="hover"
-                className="relative w-full group"
-              >
-                <div
-                  className="absolute inset-0 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/10 group-hover:border-cyan-500/50 transition-all duration-500 shadow-xl overflow-hidden z-0"
-                  style={{
-                    willChange: "transform, border-color",
-                    backfaceVisibility: "hidden",
-                    transform: "translate3d(0,0,0)",
-                  }}
-                >
-                  <motion.div
-                    variants={{
-                      initial: { top: "-100%" },
-                      hover: {
-                        top: ["-100%", "200%"],
-                        transition: {
-                          duration: 1.5,
-                          repeat: Infinity,
-                          repeatDelay: 2,
-                          ease: "linear",
-                        },
-                      },
-                    }}
-                    className="absolute left-0 right-0 h-10 bg-linear-to-b from-transparent via-cyan-400/30 to-transparent pointer-events-none z-10 shadow-lg shadow-cyan-400/20"
-                    style={{ transform: "translate3d(0,0,0)" }}
-                  />
-
-                  <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-cyan-500/30 rounded-tl-xl" />
-                  <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-purple-500/30 rounded-br-xl" />
-                </div>
-
-                <div className="absolute inset-0 pointer-events-none z-50 overflow-visible">
-                  {[...Array(4)].map((_, i) => (
-                    <motion.div
-                      key={`right-${i}`}
-                      className="absolute right-0 w-1.5 h-1.5 bg-cyan-400 rounded-full shadow-lg shadow-cyan-400"
-                      style={{
-                        top: `${20 + i * 25}%`,
-                        transform: "translate3d(0,0,0)",
-                      }}
-                      variants={{
-                        initial: { x: 0, opacity: 0 },
-                        hover: {
-                          x: [0, 0, 150],
-                          opacity: [0, 0, 1, 0],
-                          transition: {
-                            duration: 1.5,
-                            times: [0, 0.6, 0.65, 0.9],
-                            repeat: Infinity,
-                            repeatDelay: 2,
-                            delay: i * 0.05,
-                          },
-                        },
-                      }}
-                    />
-                  ))}
-                  {[...Array(4)].map((_, i) => (
-                    <motion.div
-                      key={`left-${i}`}
-                      className="absolute left-0 w-1.5 h-1.5 bg-purple-400 rounded-full shadow-lg shadow-purple-400"
-                      style={{
-                        top: `${20 + i * 25}%`,
-                        transform: "translate3d(0,0,0)",
-                      }}
-                      variants={{
-                        initial: { x: 0, opacity: 0 },
-                        hover: {
-                          x: [0, 0, -150],
-                          opacity: [0, 0, 1, 0],
-                          transition: {
-                            duration: 1.5,
-                            times: [0, 0.6, 0.65, 0.9],
-                            repeat: Infinity,
-                            repeatDelay: 2,
-                            delay: i * 0.05,
-                          },
-                        },
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* Content Container */}
-                <div className="p-5 md:p-10 relative z-10">
-                  <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6 md:mb-8 border-b border-white/10 pb-4 md:pb-6">
-                    <div>
-                      <h3 className="text-xl md:text-3xl font-bold text-white group-hover:text-cyan-400 transition-colors">
-                        {job.role}
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-2 md:gap-4 mt-2">
-                        <span className="flex items-center gap-2 font-bold text-base md:text-lg text-slate-200">
-                          <Briefcase size={16} className="text-purple-400" />
-                          {job.company}
-                        </span>
-                        <span className="flex items-center gap-1 text-xs md:text-sm text-slate-400 font-medium">
-                          <MapPin size={12} /> {job.location}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="self-start flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-lg bg-slate-950/80 border border-cyan-500/30 text-cyan-300 shadow-lg shadow-cyan-400/20 whitespace-nowrap">
-                      <CalendarClock size={14} />
-                      <span className="font-mono font-bold text-xs md:text-sm tracking-wide">
-                        {job.period}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
-                    {job.description.map((point, i) => (
-                      <div
-                        key={i}
-                        className="flex gap-3 items-start group/line"
-                      >
-                        <div className="mt-2 min-w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-[0_0_8px_cyan]" />
-                        <p className="text-slate-200 text-sm md:text-lg leading-relaxed font-medium group-hover/line:text-white transition-colors">
-                          {point}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {job.tech.map((tech, tIdx) => (
-                      <span
-                        key={tIdx}
-                        className="px-2 py-1 md:px-3 md:py-1.5 text-[10px] md:text-xs font-bold font-mono rounded bg-slate-800 text-cyan-100 border border-slate-700 group-hover:border-cyan-500/30 transition-colors"
-                      >
-                        #{tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          ))}
-        </div>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

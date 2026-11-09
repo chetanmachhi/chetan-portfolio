@@ -8,3 +8,43 @@ html {
 body {
   background-color: #030712;
 }
+
+/* Hero floating icons: idle bob on the compositor (see FloatingIcon in HeroVisual.tsx) */
+@keyframes heroFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(10px, -15px, 0); }
+  75% { transform: translate3d(-10px, 15px, 0); }
+}
+.hero-float {
+  animation-name: heroFloat;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* ---------- Section motion: compositor-only (opacity/transform), no per-frame JS ---------- */
+/* Scroll reveal, toggled once by <Reveal> in components/ui.tsx */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal[data-from="left"] { transform: translate3d(-24px, 0, 0); }
+.reveal[data-from="right"] { transform: translate3d(24px, 0, 0); }
+.reveal[data-from="none"] { transform: none; }
+.reveal.is-shown { opacity: 1; transform: none; }
+
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes marquee { to { transform: translate3d(-50%, 0, 0); } }
+@keyframes fade-up {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: none; }
+}
+.fade-up { animation: fade-up 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.anim-paused, .anim-paused * { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-float { animation: none; }
+  .reveal, .reveal[data-from] { opacity: 1; transform: none; transition: none; }
+  .fade-up { animation: none; }
+  .anim-motion { animation: none !important; }
+}

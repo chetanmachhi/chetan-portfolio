@@ -1,119 +1,64 @@
-import { motion } from "framer-motion";
-import { Award } from "lucide-react";
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { CERTIFICATIONS } from "../constants";
+import { Reveal, SectionHeader } from "./ui";
+
+/*
+ * CERTIFICATIONS — "boarding pass" credentials: a coloured stub with the issuer's mark and
+ * year, a perforated divider, and the course on the right. The whole ticket links to the
+ * credential.
+ */
 
 export default function Certifications() {
+  const issuers = [...new Set(CERTIFICATIONS.map((c) => c.issuer))];
+
   return (
-    <section
-      id="certifications"
-      className="relative py-16 md:py-24 bg-transparent overflow-hidden contain-paint"
-    >
-      {/* Background Grid & Glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(6,182,212,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.05)_1px,transparent_1px)] bg-size-[40px_40px] opacity-20" />
-        <div
-          className="absolute top-1/4 left-1/4 w-64 h-64 md:w-96 md:h-96 bg-cyan-500/10 rounded-full blur-[80px] md:blur-[100px]"
-          style={{
-            willChange: "transform",
-            backfaceVisibility: "hidden",
-            transform: "translate3d(0,0,0)",
-          }}
-        />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-64 h-64 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-[80px] md:blur-[100px]"
-          style={{
-            willChange: "transform",
-            backfaceVisibility: "hidden",
-            transform: "translate3d(0,0,0)",
-          }}
-        />
-      </div>
+    <section id="certifications" className="relative py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <SectionHeader index="04" label="Certifications" title="Verified" accent="credentials" />
+          <Reveal>
+            <p className="font-mono text-xs text-slate-500">
+              {CERTIFICATIONS.length} credentials · {issuers.join(" · ")}
+            </p>
+          </Reveal>
+        </div>
 
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12 md:mb-20"
-        >
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4 md:mb-6">
-            Professional{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">
-              Certifications
-            </span>
-          </h2>
-          <div className="h-1 w-24 bg-linear-to-r from-cyan-500 to-blue-600 mx-auto rounded-full shadow-[0_0_15px_rgba(6,182,212,0.5)]" />
-        </motion.div>
-
-        {/* Certifications Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {CERTIFICATIONS.map((cert, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative h-full"
-            >
-              {/* Card Container */}
-              <div className="relative h-full flex flex-col rounded-2xl bg-slate-900/40 backdrop-blur-sm border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] group-hover:-translate-y-2 overflow-hidden will-change-transform backface-hidden">
-                {/* HUD Corner Brackets */}
-                <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-slate-700 group-hover:border-cyan-400 rounded-tl-lg transition-colors z-20" />
-                <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-slate-700 group-hover:border-cyan-400 rounded-tr-lg transition-colors z-20" />
-                <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-slate-700 group-hover:border-cyan-400 rounded-bl-lg transition-colors z-20" />
-                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-slate-700 group-hover:border-cyan-400 rounded-br-lg transition-colors z-20" />
-
-                <cert.icon className="absolute -right-6 -top-6 text-7xl md:text-9xl text-slate-800/50 group-hover:text-cyan-500/10 transition-colors duration-500 rotate-12 z-0" />
-
-                <div className="p-6 md:p-8 flex flex-col h-full relative z-10">
-                  {/* HEADER: COMPANY NAME */}
-                  <div className="mb-6 border-b border-white/10 pb-4">
-                    <h3 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-white to-slate-400 group-hover:from-cyan-300 group-hover:to-blue-400 uppercase tracking-tighter transition-all duration-300">
-                      {cert.issuer}
-                    </h3>
-                    <div className="flex flex-wrap items-center gap-2 mt-2">
-                      <span className="px-2 py-0.5 rounded-sm bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] md:text-xs font-mono font-bold tracking-widest uppercase">
-                        VERIFIED
-                      </span>
-                      <span className="text-sm md:text-lg text-slate-500 font-mono">
-                        // {cert.year}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="grow">
-                    <h4 className="text-lg md:text-xl font-bold text-white mb-3 leading-tight group-hover:text-cyan-100 transition-colors">
-                      {cert.name}
-                    </h4>
-
-                    <p className="text-sm text-slate-300 leading-relaxed mb-8 font-medium border-l-2 border-slate-800 pl-4 group-hover:border-cyan-500/50 transition-colors">
-                      {cert.description}
-                    </p>
-                  </div>
-
-                  {/* Footer: Tech Button */}
-                  <div className="mt-auto">
-                    <a
-                      href={cert.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative block w-full py-3 rounded-lg bg-slate-950 border border-slate-800 hover:border-cyan-500/50 text-center overflow-hidden group/btn transition-all will-change-transform"
-                    >
-                      {/* Button Scanline Effect */}
-                      <div className="absolute inset-0 w-full h-full bg-linear-to-r from-transparent via-cyan-500/10 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 ease-in-out" />
-
-                      <span className="relative flex items-center justify-center gap-2 text-sm font-bold text-slate-300 group-hover/btn:text-white uppercase tracking-wide">
-                        <Award size={16} className="text-cyan-500" />
-                        View Credential
-                      </span>
-                    </a>
-                  </div>
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {CERTIFICATIONS.map((c, i) => (
+            <Reveal key={c.link} delay={(i % 2) * 80}>
+              <a
+                href={c.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex h-full overflow-hidden rounded-2xl border border-white/10 bg-slate-950/45 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-cyan-400/40"
+              >
+                {/* Stub */}
+                <div className={`relative flex w-24 md:w-28 shrink-0 flex-col items-center justify-center gap-2 bg-linear-to-b ${c.color} p-4`}>
+                  <div className="absolute inset-0 bg-slate-950/55" />
+                  <c.icon className="relative text-3xl text-white" />
+                  <span className="relative font-mono text-xs font-bold text-white/90">{c.year}</span>
                 </div>
-              </div>
-            </motion.div>
+
+                {/* Perforation */}
+                <div className="relative w-0 border-l border-dashed border-white/15" />
+
+                {/* Body */}
+                <div className="flex min-w-0 grow flex-col p-5">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className={`font-mono text-[11px] font-bold uppercase tracking-widest ${c.text_color}`}>{c.issuer}</span>
+                    <span className="flex items-center gap-1 font-mono text-[10px] text-emerald-300/80">
+                      <ShieldCheck size={12} /> VERIFIED
+                    </span>
+                  </div>
+                  <h3 className="mt-2 text-lg font-bold leading-snug text-white">{c.name}</h3>
+                  <p className="mt-2 line-clamp-2 text-sm text-slate-400">{c.description}</p>
+                  <span className="mt-4 flex items-center gap-1 text-sm font-semibold text-cyan-300">
+                    View credential
+                    <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </div>
+              </a>
+            </Reveal>
           ))}
         </div>
       </div>

@@ -34,10 +34,23 @@ import {
   SiAmazonwebservices,
   SiFigma,
   SiDocker,
-  SiReactquery,
 } from "react-icons/si";
 
 import { FaLayerGroup, FaStream, FaUsersCog } from "react-icons/fa";
+import {
+  FaChalkboardTeacher,
+  FaClipboardCheck,
+  FaClipboardList,
+  FaComments,
+  FaDesktop,
+  FaFileSignature,
+  FaFlask,
+  FaHandshake,
+  FaLightbulb,
+  FaProjectDiagram,
+  FaSearch,
+  FaUsers,
+} from "react-icons/fa";
 
 export const PERSONAL_INFO = {
   name: "Chetan Machhi",
@@ -75,7 +88,6 @@ export const SKILL_CATEGORIES = [
       { name: "Redux Toolkit", icon: SiRedux, color: "text-purple-500" },
       { name: "TypeScript", icon: SiTypescript, color: "text-blue-600" },
       { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-cyan-400" },
-      { name: "TanStack Query", icon: SiReactquery, color: "text-rose-400" },
       { name: "HTML5", icon: SiHtml5, color: "text-orange-500" },
       { name: "CSS3", icon: SiCss3, color: "text-blue-500" },
     ],
@@ -90,6 +102,7 @@ export const SKILL_CATEGORIES = [
       { name: "Flask", icon: SiFlask, color: "text-white" },
       { name: "REST APIs", icon: FaNodeJs, color: "text-blue-300" },
       { name: "BullMQ", icon: FaLayerGroup, color: "text-red-400" },
+      { name: "Redis", icon: SiRedis, color: "text-red-500" },
       { name: "Message Queues", icon: FaStream, color: "text-amber-400" },
     ],
   },
@@ -150,10 +163,11 @@ export const EXPERIENCES = [
     description: [
       "Designing and optimizing scalable REST APIs with Express.js and MySQL for high-volume data processing.",
       "Deploying backend applications on AWS to ensure high availability across environments.",
-      "Building responsive React UI components and integrating them with backend logic.",
+      "Building React and React Native interfaces with Redux state management, integrated with backend logic.",
+      "Processing background jobs and async workflows with BullMQ queues backed by Redis.",
       "Optimizing complex SQL queries and database indexing to improve performance and reduce latency.",
     ],
-    tech: ["Express.js", "MySQL", "AWS", "React"],
+    tech: ["React", "React Native", "Redux", "Express.js", "MySQL", "BullMQ", "Redis", "AWS"],
     color: "violet",
   },
   {
@@ -167,7 +181,7 @@ export const EXPERIENCES = [
       "Implemented Redux Toolkit state management for predictable data flow across web and mobile platforms.",
       "Built responsive, mobile-first user interfaces optimized for desktop and Android applications.",
     ],
-    tech: ["React Native", "TypeScript", "Redux", "MongoDB"],
+    tech: ["React", "React Native", "Redux", "Express.js", "TypeScript", "MongoDB"],
     color: "blue",
   },
   {
@@ -248,7 +262,8 @@ export const CERTIFICATIONS = [
 export const BLINKIT = {
   storePanelUrl: "https://blinkit-store-web.vercel.app/login",
   apiHealthUrl: "https://blinkit-backend-2bv1.onrender.com/health",
-  // GitHub Releases: upload Blinkit-Customer.apk / Blinkit-Delivery.apk to the latest release of each repo.
+  // Served by GitHub Releases (not our hosting bandwidth). The asset in each repo's latest
+  // release must be named exactly Blinkit-Customer.apk / Blinkit-Delivery.apk.
   customerApkUrl: "https://github.com/chetanmachhi/blinkit-customer-app/releases/latest/download/Blinkit-Customer.apk",
   deliveryApkUrl: "https://github.com/chetanmachhi/blinkit-delivery-app/releases/latest/download/Blinkit-Delivery.apk",
   repos: {
@@ -368,3 +383,77 @@ export const PROJECTS = [
     link: "https://phonon.io",
   },
 ];
+
+/**
+ * Pre-Sales / Solution Consultant variant of the site, shown when the URL contains "pre"
+ * (e.g. /presales). Anything not overridden here falls back to the Full Stack content above.
+ * Text mirrors the Pre-Sales resume.
+ */
+export const PRESALES = {
+  role: "Solution Consultant",
+  roles: ["Solution Consultant", "Pre-Sales Engineer"],
+  tagline:
+    "Bridging business and technology — I gather requirements, map them to product capabilities, and explain technical solutions clearly to both technical and business audiences.",
+  about:
+    "Technical, client-facing professional with 2 years of experience in SaaS product development and customer-facing application support across telecom, clean-tech, and food-delivery domains. Skilled at gathering requirements, mapping them to product capabilities, and explaining technical solutions to technical and business audiences. Experienced in resolving client issues in real time, managing tickets in Jira and Zoho, and relaying client feedback to product and engineering teams. Built Solar Chat Pro, a live SaaS platform, with first-hand experience of the product lifecycle from requirements to a demo-ready release. Background in React, Node.js, Python, REST APIs, and AWS.",
+  focus: [
+    "Solution consulting",
+    "Technical demos",
+    "Proof of concept",
+    "Requirement gathering",
+    "Client communication",
+    "SaaS workflows",
+    "REST API integration",
+  ],
+  /** Experience bullets by company (tech chips stay the same). */
+  experience: {
+    "Easy Caters India": [
+      "Translate business requirements for a food-delivery platform into technical solutions (scalable REST APIs on Express.js, MySQL).",
+      "Deploy and maintain backend applications on AWS, supporting high availability across environments.",
+      "Build React user interface components and integrate them with backend logic.",
+      "Optimize database queries and indexing to improve application performance and reduce latency.",
+    ],
+    "Frelit Energy": [
+      "Built customer-facing web and mobile applications for the solar industry using React.js, React Native, and TypeScript.",
+      "Designed and maintained production RESTful APIs using Express.js and MongoDB.",
+      "Delivered responsive, mobile-first interfaces for desktop and Android using Redux Toolkit.",
+    ],
+    "Phonon.io": [
+      "Worked directly with telecom clients to resolve real-time SMS, email, and voice platform issues, maintaining 99% uptime.",
+      "Explained technical issues and solutions clearly to client contacts across technical and non-technical roles.",
+      "Managed support tickets, bugs, and client requests in Jira and Zoho, tracking each one from intake to resolution.",
+      "Coordinated with product and engineering teams to prioritize fixes and relay client feedback and recurring issues.",
+      "Reduced incident resolution time by 20% using SQL and NoSQL queries for root cause analysis and health monitoring.",
+      "Built Python (Flask) and React monitoring tools; automated recurring backend processes with Linux shell scripts.",
+    ],
+  } as Record<string, string[]>,
+  /** Extra skill categories shown first in the Skills explorer. */
+  skillCategories: [
+    {
+      title: "Pre-Sales & Solutioning",
+      icon: FaChalkboardTeacher,
+      skills: [
+        { name: "Solution Consulting", icon: FaLightbulb, color: "text-amber-300" },
+        { name: "Technical Demos", icon: FaDesktop, color: "text-cyan-400" },
+        { name: "Proof of Concept (POC)", icon: FaFlask, color: "text-emerald-400" },
+        { name: "Requirement Gathering", icon: FaClipboardList, color: "text-blue-400" },
+        { name: "Product Mapping", icon: FaProjectDiagram, color: "text-violet-400" },
+        { name: "SaaS Workflows", icon: FaCloud, color: "text-sky-400" },
+      ],
+    },
+    {
+      title: "Client & Stakeholders",
+      icon: FaHandshake,
+      skills: [
+        { name: "Client Communication", icon: FaComments, color: "text-cyan-400" },
+        { name: "RFI Handling", icon: FaFileSignature, color: "text-amber-400" },
+        { name: "Jira & Zoho Ticketing", icon: SiJira, color: "text-blue-500" },
+        { name: "Feedback Documentation", icon: FaClipboardCheck, color: "text-emerald-400" },
+        { name: "Cross-Functional Collaboration", icon: FaUsers, color: "text-violet-400" },
+        { name: "Root Cause Analysis", icon: FaSearch, color: "text-rose-400" },
+      ],
+    },
+  ],
+  /** Project shown first (featured) on the Pre-Sales site. */
+  featuredProject: "Solar Chat Pro",
+};

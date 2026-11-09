@@ -1,293 +1,107 @@
-import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { SKILLS, SKILL_CATEGORIES } from "../constants";
+import { useRef, useState } from "react";
+import { SKILLS } from "../constants";
+import { useProfile } from "../profile";
+import { useActiveInView } from "../hooks/useActiveInView";
+import { Reveal, SectionHeader, card } from "./ui";
+
+/*
+ * SKILLS — an endless strip of core tools (CSS marquee, compositor-only, pauses on hover
+ * and whenever it's off-screen) and a category explorer: pick a category, its tools appear
+ * as tiles. Replaces the auto-playing 3D carousel.
+ */
 
 export default function Skills() {
-  const [index, setIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  const isScrollingRef = useRef(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      isScrollingRef.current = true;
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        isScrollingRef.current = false;
-      }, 150);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    timerRef.current = setInterval(() => {
-      if (!isScrollingRef.current) {
-        setIndex((prev) => (prev + 1) % SKILLS.length);
-      }
-    }, 2000);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
-
-  const nextStep = () => {
-    setIndex((prev) => (prev + 1) % SKILLS.length);
-  };
-
-  const prevStep = () => {
-    setIndex((prev) => (prev - 1 + SKILLS.length) % SKILLS.length);
-  };
-
-  const getCardStyle = (itemIndex: number) => {
-    const total = SKILLS.length;
-    let distance = (itemIndex - index + total) % total;
-    if (distance > total / 2) distance -= total;
-
-    const spread = isMobile ? 180 : 300;
-    const spreadFar = isMobile ? 150 : 250;
-
-    if (distance === 0) {
-      return {
-        x: 0,
-        scale: 1,
-        opacity: 1,
-        zIndex: 10,
-        rotateY: 0,
-      };
-    } else if (Math.abs(distance) === 1) {
-      return {
-        x: distance * spread,
-        scale: 0.9,
-        opacity: 0.7,
-        zIndex: 5,
-        rotateY: distance * -15,
-      };
-    } else if (Math.abs(distance) === 2) {
-      return {
-        x: distance * spreadFar,
-        scale: 0.8,
-        opacity: 0.3,
-        zIndex: 1,
-        rotateY: distance * -30,
-      };
-    } else {
-      return {
-        x: 0,
-        scale: 0,
-        opacity: 0,
-        zIndex: 0,
-        rotateY: 0,
-      };
-    }
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { type: "spring" as const, stiffness: 100 },
-    },
-  };
+  const { kind, skillCategories } = useProfile();
+  const [picked, setPicked] = useState({ kind, cat: 0 });
+  // Back to the first category whenever the site version changes
+  const cat = picked.kind === kind ? picked.cat : 0;
+  const setCat = (i: number) => setPicked({ kind, cat: i });
+  const stripRef = useRef<HTMLDivElement>(null);
+  const stripActive = useActiveInView(stripRef);
+  const selected = skillCategories[cat] ?? skillCategories[0];
 
   return (
-    <section id="skills" className="relative py-16 md:py-24 overflow-hidden">
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"
-        style={{
-          willChange: "transform",
-          backfaceVisibility: "hidden",
-          transform: "translate3d(0,0,0)",
-        }}
-      />
+    <section id="skills" className="relative py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-6">
+        <SectionHeader
+          index="02"
+          label="Skills"
+          title="Technical"
+          accent="arsenal"
+          subtitle="The tools I reach for to ship web, mobile and backend systems."
+        />
+      </div>
 
-      <div className="w-full max-w-[95vw] xl:max-w-7xl mx-auto px-4 relative z-10 flex flex-col items-center">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">
-            Technical{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-500">
-              Arsenal
-            </span>
-          </h2>
-          <p className="text-slate-400 text-base md:text-lg">
-            Mastering the tools that build the future.
-          </p>
-        </div>
-
-        {/* Carousel Container */}
-        <div className="relative w-full h-80 flex items-center justify-center perspective-1000 mb-8">
-          {SKILLS.map((skill, i) => {
-            const style = getCardStyle(i);
-            const xOffset = style.x;
-            const isActive = style.opacity === 1;
-
-            return (
-              <motion.div
+      {/* Marquee strip */}
+      <Reveal className="mt-12">
+        <div ref={stripRef} className={`group relative overflow-hidden border-y border-white/5 bg-slate-950/30 py-5 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] ${stripActive ? "" : "anim-paused"}`}>
+          <div
+            className="flex w-max gap-3 anim-motion group-hover:[animation-play-state:paused]"
+            style={{ animation: "marquee 40s linear infinite" }}
+          >
+            {[...SKILLS, ...SKILLS].map((s, i) => (
+              <div
                 key={i}
-                className="absolute w-56 h-72 md:w-64 md:h-80 rounded-3xl bg-slate-900/80 backdrop-blur-md border border-white/10 shadow-2xl flex flex-col items-center justify-center gap-6 cursor-pointer"
-                animate={{
-                  x: xOffset,
-                  scale: style.scale,
-                  opacity: style.opacity,
-                  zIndex: style.zIndex,
-                  rotateY: style.rotateY,
-                }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
-                onClick={() => setIndex(i)}
-                style={{
-                  willChange: "transform, opacity",
-                  backfaceVisibility: "hidden",
-                  transform: "translate3d(0, 0, 0)",
-                }}
+                aria-hidden={i >= SKILLS.length}
+                className="flex shrink-0 items-center gap-2.5 rounded-xl border border-white/10 bg-slate-950/60 px-4 py-2.5"
               >
-                {isActive && (
-                  <div className="absolute inset-0 bg-linear-to-b from-cyan-500/10 to-transparent rounded-3xl pointer-events-none" />
-                )}
-                <div
-                  className={`p-5 rounded-full bg-black/40 border border-white/5 ${
-                    isActive ? "scale-110 shadow-lg shadow-cyan-500/20" : ""
-                  } transition-all duration-500`}
-                >
-                  <skill.icon
-                    className={`text-5xl md:text-6xl ${skill.color} filter drop-shadow-lg`}
-                  />
-                </div>
-                <h3 className="text-lg md:text-xl font-bold text-white tracking-wide">
-                  {skill.name}
-                </h3>
-              </motion.div>
-            );
-          })}
+                <s.icon className={`text-xl ${s.color}`} />
+                <span className="text-sm font-semibold text-slate-200 whitespace-nowrap">{s.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
+      </Reveal>
 
-        {/* Controls */}
-        <div className="flex gap-8 mb-8 z-50">
-          <button
-            onClick={prevStep}
-            className="p-3 rounded-full bg-slate-900/50 border border-slate-700 text-white hover:bg-cyan-500 transition-all active:scale-95"
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            onClick={nextStep}
-            className="p-3 rounded-full bg-slate-900/50 border border-slate-700 text-white hover:bg-cyan-500 transition-all active:scale-95"
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
+      {/* Category explorer */}
+      <div className="max-w-6xl mx-auto px-6 mt-12">
+        <Reveal>
+          <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-4">
+            {/* Category list (horizontal scroll on mobile) */}
+            <div className="flex lg:flex-col gap-2 overflow-x-auto pb-2 lg:pb-0 -mx-6 px-6 lg:mx-0 lg:px-0">
+              {skillCategories.map((c, i) => {
+                const isActive = i === cat;
+                return (
+                  <button
+                    key={c.title}
+                    onClick={() => setCat(i)}
+                    className={`group flex shrink-0 items-center gap-3 rounded-xl border px-4 py-3 text-left transition-colors ${
+                      isActive
+                        ? "border-cyan-400/40 bg-cyan-400/10 text-white"
+                        : "border-white/10 bg-slate-950/40 text-slate-400 hover:border-white/20 hover:text-white"
+                    }`}
+                  >
+                    <c.icon size={18} className={isActive ? "text-cyan-300" : "text-slate-500 group-hover:text-slate-300"} />
+                    <span className="text-sm font-semibold whitespace-nowrap">{c.title}</span>
+                    <span className="ml-auto pl-3 font-mono text-[11px] text-slate-500">{String(c.skills.length).padStart(2, "0")}</span>
+                  </button>
+                );
+              })}
+            </div>
 
-        {/* Manual Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 w-full mb-12 md:mb-16 px-2">
-          {SKILLS.map((skill, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              className={`relative group overflow-hidden flex items-center gap-2 px-3 py-2 rounded-lg border transition-all duration-300 min-w-25 md:min-w-30 ${
-                index === i
-                  ? "bg-slate-900 border-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.3)] scale-105 z-10"
-                  : "bg-slate-900/40 border-slate-700 hover:border-slate-500"
-              }`}
-            >
-              {index !== i && (
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute -inset-full bg-[conic-gradient(from_0deg,transparent_0_340deg,cyan_360deg)] animate-[spin_2s_linear_infinite]" />
-                  <div className="absolute inset-px bg-slate-900 rounded-lg" />
-                </div>
-              )}
-              <div className="relative z-10 flex items-center gap-2 w-full justify-center">
-                <skill.icon
-                  className={`text-base md:text-lg ${skill.color} filter drop-shadow-md`}
-                />
-                <span
-                  className={`text-xs font-medium whitespace-nowrap ${
-                    index === i ? "text-white" : "text-slate-200"
-                  }`}
-                >
-                  {skill.name}
+            {/* Selected category */}
+            <div className={`${card} p-6 md:p-8`}>
+              <div className="flex items-baseline justify-between gap-4">
+                <h3 className="text-xl md:text-2xl font-bold text-white">{selected.title}</h3>
+                <span className="font-mono text-xs text-slate-500">
+                  {selected.skills.length} skills
                 </span>
               </div>
-            </button>
-          ))}
-        </div>
-
-        {/* Categories Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
-        >
-          {SKILL_CATEGORIES.map((category, idx) => (
-            <motion.div
-              key={idx}
-              variants={itemVariants}
-              className="relative group bg-slate-900/40 backdrop-blur-md border border-slate-800 p-5 md:p-6 rounded-2xl hover:border-cyan-500/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] hover:-translate-y-2"
-              style={{
-                willChange: "transform, box-shadow",
-                backfaceVisibility: "hidden",
-              }}
-            >
-              <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-              <div className="flex items-center gap-4 mb-4 md:mb-6 relative z-10">
-                <div className="p-2 md:p-3 rounded-xl bg-slate-950 border border-slate-800 text-cyan-400 group-hover:text-white group-hover:bg-linear-to-br group-hover:from-cyan-500 group-hover:to-blue-600 transition-all duration-300 shadow-lg">
-                  <category.icon size={20} className="md:w-6 md:h-6" />
-                </div>
-                <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
-                  {category.title}
-                </h3>
-              </div>
-
-              <div className="flex flex-wrap gap-2 md:gap-3 relative z-10">
-                {category.skills.map((s, sIdx) => (
+              <div key={cat} className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {selected.skills.map((s, i) => (
                   <div
-                    key={sIdx}
-                    className="relative overflow-hidden flex items-center gap-2 px-2.5 py-1.5 md:px-3 md:py-2 rounded-lg bg-slate-900 border border-slate-700/50 transition-all duration-300"
+                    key={s.name}
+                    className="fade-up group flex flex-col items-center gap-3 rounded-xl border border-white/5 bg-white/2 px-3 py-5 text-center transition-colors hover:border-cyan-400/30 hover:bg-cyan-400/5"
+                    style={{ animationDelay: `${i * 40}ms` }}
                   >
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <div className="absolute -inset-full bg-[conic-gradient(from_0deg,transparent_0_340deg,cyan_360deg)] animate-[spin_4s_linear_infinite]" />
-                      <div className="absolute inset-px bg-slate-900 rounded-lg" />
-                    </div>
-
-                    <div className="relative z-10 flex items-center gap-2">
-                      {s.icon && (
-                        <s.icon className={`text-xs md:text-sm ${s.color}`} />
-                      )}
-                      <span className="text-xs md:text-sm font-bold text-slate-200 group-hover:text-white">
-                        {s.name}
-                      </span>
-                    </div>
+                    {s.icon && <s.icon className={`text-3xl ${s.color} transition-transform duration-300 group-hover:scale-110`} />}
+                    <span className="text-sm font-semibold text-slate-200">{s.name}</span>
                   </div>
                 ))}
               </div>
-            </motion.div>
-          ))}
-        </motion.div>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

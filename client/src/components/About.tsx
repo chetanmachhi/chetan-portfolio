@@ -1,145 +1,111 @@
-import { motion } from "framer-motion";
-import {
-  BookOpen,
-  Code,
-  FlaskConical,
-  Sparkles,
-  GraduationCap,
-} from "lucide-react";
-import { PERSONAL_INFO } from "../constants";
+import { Briefcase, Clock, FlaskConical, GraduationCap, MapPin, Sparkles, Terminal } from "lucide-react";
+import { useProfile } from "../profile";
+import { Reveal, SectionHeader, card } from "./ui";
+
+/*
+ * ABOUT — a bento grid: the bio as a terminal-style "whoami" card, with education,
+ * current role, location and quick numbers as smaller tiles around it.
+ */
+
 
 export default function About() {
+  const { about, focus, experiences } = useProfile();
+  const current = experiences[0];
+
   return (
-    <section id="about" className="relative py-16 md:py-32 overflow-hidden">
-      {/* Local Ambient Glow */}
-      <div className="absolute top-1/4 left-0 w-64 md:w-96 h-64 md:h-96 bg-blue-600/20 rounded-full blur-[80px] md:blur-[120px] -translate-x-1/2 pointer-events-none mix-blend-screen will-change-transform backface-hidden" />
-      <div className="absolute bottom-1/4 right-0 w-64 md:w-96 h-64 md:h-96 bg-cyan-600/10 rounded-full blur-[80px] md:blur-[120px] translate-x-1/2 pointer-events-none mix-blend-screen will-change-transform backface-hidden" />
+    <section id="about" className="relative py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-6">
+        <SectionHeader index="01" label="About" title="A bit about" accent="me" />
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* LEFT COLUMN: BIO */}
-          <div className="space-y-6 md:space-y-8 lg:sticky lg:top-24">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6 }}
-              className="relative will-change-transform backface-hidden"
-            >
-              <div className="flex items-center gap-4 mb-2">
-                <div className="p-2.5 md:p-3 rounded-2xl bg-linear-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/30 text-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-                  <BookOpen className="w-6 h-6 md:w-8 md:h-8" />
-                </div>
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight">
-                  About{" "}
-                  <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-600">
-                    Me
-                  </span>
-                </h2>
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Bio */}
+          <Reveal className="md:col-span-2 lg:row-span-2">
+            <div className={`${card} h-full overflow-hidden`}>
+              <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3 font-mono text-xs text-slate-500">
+                <Terminal size={14} className="text-cyan-400" /> ~/chetan $ whoami
               </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-              className="relative group will-change-transform backface-hidden"
-            >
-              <div className="absolute inset-0 bg-linear-to-r from-cyan-500 to-blue-600 rounded-3xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
-              <div className="relative p-6 md:p-8 rounded-3xl bg-slate-900/60 border border-white/10 backdrop-blur-xl shadow-2xl">
-                <Sparkles className="absolute top-6 right-6 text-yellow-300 opacity-50 md:opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:rotate-12 group-hover:scale-125 pointer-events-none" />
-
-                <p className="text-base md:text-lg text-slate-300 leading-relaxed md:leading-loose font-light">
-                  {PERSONAL_INFO.about}
-                </p>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* RIGHT COLUMN: TIMELINE */}
-          <div className="space-y-8 relative pt-4">
-            {/* Timeline Line */}
-            <div className="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 bg-linear-to-b from-blue-500 via-cyan-500 to-transparent will-change-transform" />
-
-            {/* CARD 1: MCA */}
-            <motion.div
-              initial={{ x: 50, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: 0.2 }}
-              className="relative pl-14 md:pl-24 group will-change-transform backface-hidden"
-            >
-              <div className="absolute left-6 md:left-8 top-8 -translate-x-1/2 z-10 bg-black rounded-full">
-                <div className="w-4 h-4 rounded-full bg-slate-950 border-2 border-blue-500 relative flex items-center justify-center group-hover:border-cyan-400 transition-colors duration-300">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              </div>
-
-              <div className="relative p-1 rounded-2xl bg-linear-to-br from-white/10 to-white/0 overflow-hidden group-hover:from-blue-500/50 group-hover:to-cyan-500/50 transition-colors duration-500">
-                <div className="relative p-5 md:p-6 rounded-xl bg-slate-950/40 backdrop-blur-md h-full hover:bg-slate-900/90 transition-colors">
-                  <div className="flex flex-col sm:flex-row justify-between items-start gap-3 md:gap-4">
-                    <div>
-                      <h3 className="text-lg md:text-2xl font-bold text-white group-hover:text-cyan-300 transition-colors">
-                        Master of Computer Applications
-                      </h3>
-                      <p className="text-blue-400 font-medium mt-1 text-sm md:text-base">
-                        Sigma University
-                      </p>
-                    </div>
-                    <div className="p-2 rounded-lg bg-blue-500/10 text-blue-400 shrink-0 hidden sm:block">
-                      <Code size={20} />
-                    </div>
-                  </div>
-                  <div className="mt-4 flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 w-fit border border-blue-500/20">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-xs font-bold tracking-wide text-blue-200">
-                      2025 - Present
+              <div className="p-6 md:p-8">
+                <p className="text-base md:text-lg leading-relaxed text-slate-300">{about}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {focus.map((f) => (
+                    <span key={f} className="rounded-full border border-cyan-400/20 bg-cyan-400/5 px-3 py-1 text-xs font-semibold text-cyan-200">
+                      {f}
                     </span>
-                  </div>
+                  ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
+          </Reveal>
 
-            {/* CARD 2: BSc */}
-            <motion.div
-              initial={{ x: 50, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: 0.4 }}
-              className="relative pl-14 md:pl-24 group will-change-transform backface-hidden"
-            >
-              <div className="absolute left-6 md:left-8 top-8 -translate-x-1/2 z-10 bg-black rounded-full">
-                <div className="w-4 h-4 rounded-full bg-slate-950 border-2 border-emerald-500 relative flex items-center justify-center group-hover:border-emerald-400 transition-colors duration-300">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
+          {/* Education: MCA */}
+          <Reveal delay={80}>
+            <div className={`${card} h-full p-6 transition-colors hover:border-blue-400/40`}>
+              <div className="flex items-center justify-between">
+                <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-500/10 text-blue-300">
+                  <GraduationCap size={20} />
+                </span>
+                <span className="flex items-center gap-1.5 rounded-full border border-emerald-400/25 bg-emerald-400/5 px-2.5 py-1 font-mono text-[10px] text-emerald-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> IN PROGRESS
+                </span>
               </div>
+              <h3 className="mt-5 text-lg font-bold text-white">Master of Computer Applications</h3>
+              <p className="mt-1 text-sm text-blue-300">Sigma University</p>
+              <p className="mt-3 font-mono text-xs text-slate-500">2025 — Present</p>
+            </div>
+          </Reveal>
 
-              <div className="relative p-1 rounded-2xl bg-linear-to-br from-white/10 to-white/0 overflow-hidden group-hover:from-emerald-500/50 group-hover:to-teal-500/50 transition-colors duration-500">
-                <div className="relative p-5 md:p-6 rounded-xl bg-slate-950/40 backdrop-blur-md h-full hover:bg-slate-900/90 transition-colors">
-                  <div className="flex flex-col sm:flex-row justify-between items-start gap-3 md:gap-4">
-                    <div>
-                      <h3 className="text-lg md:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors">
-                        BSc Chemistry
-                      </h3>
-                      <p className="text-emerald-400 font-medium mt-1 text-sm md:text-base">
-                        Shri Govind Guru University
-                      </p>
-                    </div>
-                    <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 shrink-0 hidden sm:block">
-                      <FlaskConical size={20} />
-                    </div>
-                  </div>
-                  <div className="mt-4 flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 w-fit border border-emerald-500/20">
-                    <GraduationCap size={14} className="text-emerald-400" />
-                    <span className="text-xs font-bold tracking-wide text-emerald-200">
-                      2018 - 2021
-                    </span>
-                  </div>
-                </div>
+          {/* Education: BSc */}
+          <Reveal delay={140}>
+            <div className={`${card} h-full p-6 transition-colors hover:border-emerald-400/40`}>
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-500/10 text-emerald-300">
+                <FlaskConical size={20} />
+              </span>
+              <h3 className="mt-5 text-lg font-bold text-white">BSc Chemistry</h3>
+              <p className="mt-1 text-sm text-emerald-300">Shri Govind Guru University</p>
+              <p className="mt-3 font-mono text-xs text-slate-500">2018 — 2021</p>
+            </div>
+          </Reveal>
+
+          {/* Current role */}
+          <Reveal delay={60}>
+            <div className={`${card} h-full p-6`}>
+              <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-slate-500">
+                <Briefcase size={13} className="text-violet-300" /> Currently
+              </p>
+              <p className="mt-3 text-lg font-bold text-white">{current.role}</p>
+              <p className="text-sm text-violet-300">@ {current.company}</p>
+            </div>
+          </Reveal>
+
+          {/* Location */}
+          <Reveal delay={120}>
+            <div className={`${card} h-full p-6`}>
+              <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-slate-500">
+                <MapPin size={13} className="text-cyan-300" /> Based in
+              </p>
+              <p className="mt-3 text-lg font-bold text-white">Vadodara, Gujarat</p>
+              <p className="flex items-center gap-1.5 text-sm text-slate-400">
+                <Clock size={13} /> India · IST (UTC+5:30)
+              </p>
+            </div>
+          </Reveal>
+
+          {/* Open to */}
+          <Reveal delay={180}>
+            <div className={`${card} h-full p-6`}>
+              <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-slate-500">
+                <Sparkles size={13} className="text-emerald-300" /> Open to
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="rounded-lg border border-emerald-400/25 bg-emerald-400/5 px-3 py-1.5 text-sm font-semibold text-emerald-200">
+                  Full-time roles
+                </span>
+                <span className="rounded-lg border border-cyan-400/25 bg-cyan-400/5 px-3 py-1.5 text-sm font-semibold text-cyan-200">
+                  Freelance projects
+                </span>
               </div>
-            </motion.div>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

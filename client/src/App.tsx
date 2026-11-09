@@ -11,12 +11,13 @@ import Footer from "./components/Footer";
 import Background from "./components/Background";
 import Certifications from "./components/Certifications";
 import Blinkit from "./pages/Blinkit";
+import { ProfileProvider, isHomePath } from "./profile";
 
 function ScrollHandler() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    if (pathname === "/" && hash) {
+    if (isHomePath(pathname) && hash) {
       const id = hash.replace("#", "");
       const element = document.getElementById(id);
 
@@ -38,9 +39,22 @@ function ScrollHandler() {
   return null;
 }
 
+const home = (
+  <>
+    <Hero />
+    <About />
+    <Skills />
+    <Experience />
+    <Certifications />
+    <Projects />
+    <Contact />
+  </>
+);
+
 function App() {
   return (
     <Router>
+      <ProfileProvider>
       <div className="min-h-screen font-sans selection:bg-cyan-500/30 text-white relative overflow-x-hidden bg-transparent">
         <Background />
         <ScrollHandler />
@@ -48,24 +62,16 @@ function App() {
 
         <main className="relative z-10">
           <Routes>
-            <Route path="/" element={
-              <>
-                <Hero />
-                <div id="home" />
-                <About />
-                <Skills />
-                <Experience />
-                <Certifications />
-                <Projects />
-                <Contact />
-              </>
-            } />
+            <Route path="/" element={home} />
+            {/* /presales, /pre-sales, … → same page, Pre-Sales content (see profile.tsx) */}
+            <Route path="/:variant" element={home} />
             <Route path="/projects/blinkit" element={<Blinkit />} />
           </Routes>
         </main>
 
         <Footer />
       </div>
+      </ProfileProvider>
     </Router>
   );
 }

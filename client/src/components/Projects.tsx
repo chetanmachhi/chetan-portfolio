@@ -1,130 +1,98 @@
-import { motion } from "framer-motion";
-import { FolderGit2, Layers, Zap, Terminal, ExternalLink } from "lucide-react";
-import { PROJECTS } from "../constants";
+import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { PROJECTS } from "../constants";
+import { useProfile } from "../profile";
+import { Reveal, SectionHeader, WindowBar, slugify } from "./ui";
+
+/*
+ * PROJECTS — each project is a small "app window". The first one is featured (wide, all
+ * highlights); the rest show their top two highlights. Internal links open the case-study
+ * page, external ones open the live site.
+ */
+
+type Project = (typeof PROJECTS)[number] & { link?: string };
+
+function ProjectCard({ p, featured }: { p: Project; featured?: boolean }) {
+  const isInternal = p.link?.startsWith("/");
+  const isExternal = p.link?.startsWith("http");
+  const highlights = featured ? p.highlights : p.highlights.slice(0, 2);
+
+  const body = (
+    <>
+      <WindowBar
+        path={`~/projects/${slugify(p.title).slice(0, 28)}`}
+        right={
+          p.link ? (
+            <span className="flex items-center gap-1 font-mono text-[10px] text-cyan-300">
+              {isInternal ? "CASE STUDY" : "LIVE"} <ArrowUpRight size={12} />
+            </span>
+          ) : null
+        }
+      />
+      <div className={`flex grow flex-col p-6 ${featured ? "md:p-8" : ""}`}>
+        <span className="font-mono text-[11px] uppercase tracking-widest text-violet-300/90">{p.category}</span>
+        <h3 className={`mt-2 font-extrabold text-white transition-colors group-hover:text-cyan-200 ${featured ? "text-2xl md:text-3xl" : "text-xl"}`}>
+          {p.title}
+        </h3>
+        <p className="mt-3 text-slate-400 leading-relaxed">{p.description}</p>
+
+        <ul className={`mt-5 space-y-2.5 ${featured ? "md:columns-2 md:gap-8" : ""}`}>
+          {highlights.map((h) => (
+            <li key={h} className="flex gap-2.5 text-sm text-slate-300 break-inside-avoid">
+              <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-cyan-400" />
+              {h}
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-auto flex flex-wrap gap-1.5 pt-6">
+          {p.tech.map((t) => (
+            <span key={t} className="rounded-md border border-white/10 bg-white/3 px-2 py-0.5 font-mono text-[11px] text-slate-400">
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+
+  const cls =
+    "group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-cyan-400/40";
+
+  if (isInternal) return <Link to={p.link!} className={cls}>{body}</Link>;
+  if (isExternal)
+    return (
+      <a href={p.link} target="_blank" rel="noopener noreferrer" className={cls}>
+        {body}
+      </a>
+    );
+  return <div className={cls}>{body}</div>;
+}
 
 export default function Projects() {
+  const { projects } = useProfile();
+  const [featured, ...rest] = projects as Project[];
+
   return (
-    <section
-      id="projects"
-      className="relative py-16 md:py-24 bg-transparent overflow-hidden contain-paint"
-    >
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(rgba(15,23,42,0.8)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.8)_1px,transparent_1px)] bg-size-[60px_60px] opacity-30" />
-      </div>
+    <section id="projects" className="relative py-20 md:py-28">
+      <div className="max-w-6xl mx-auto px-6">
+        <SectionHeader
+          index="05"
+          label="Projects"
+          title="Featured"
+          accent="systems"
+          subtitle="Products and tools I've designed, built and shipped — from quick-commerce to telecom automation."
+        />
 
-      <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12 md:mb-20"
-        >
-          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">
-            Featured{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-500">
-              Systems
-            </span>
-          </h2>
-          <div className="h-1 w-24 bg-linear-to-r from-blue-500 to-purple-600 mx-auto rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {PROJECTS.map((project, index) => {
-            const isExternal = project.link?.startsWith("http");
-            const isInternal = project.link?.startsWith("/");
-
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative h-full"
-              >
-                <div className="relative h-full flex flex-col bg-slate-950/80 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-500 group-hover:-translate-y-2 will-change-transform backface-hidden">
-                  {isInternal && (
-                    <Link
-                      to={project.link!}
-                      className="absolute inset-0 z-20 cursor-pointer"
-                      aria-label={`Open ${project.title}`}
-                    />
-                  )}
-
-                  {isExternal && (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="absolute inset-0 z-20 cursor-pointer"
-                      aria-label={`Open ${project.title}`}
-                    />
-                  )}
-
-                  <div className="h-1 w-full bg-linear-to-r from-blue-500 via-purple-500 to-blue-500 opacity-50 group-hover:opacity-100 transition-opacity" />
-
-                  <div className="p-6 md:p-8 flex flex-col h-full">
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="p-3 rounded-xl bg-slate-900 border border-slate-700 text-blue-400 group-hover:text-white group-hover:bg-blue-600 transition-colors shadow-lg">
-                        <FolderGit2 size={24} />
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        {project.link && (
-                          <ExternalLink size={14} className="text-blue-400" />
-                        )}
-                        <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-600 text-[10px] md:text-xs font-bold font-mono text-slate-300">
-                          {project.category}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="mb-6">
-                      <h3 className="text-xl md:text-2xl font-extrabold text-white mb-3 group-hover:text-blue-300 transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-slate-300 text-sm md:text-base leading-relaxed font-medium border-l-2 border-slate-700 pl-4">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    <div className="mb-8 grow">
-                      <h4 className="flex items-center gap-2 text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-4">
-                        <Layers size={12} /> Key Implementations
-                      </h4>
-                      <ul className="space-y-3">
-                        {project.highlights.map((point, i) => (
-                          <li key={i} className="flex gap-3 text-sm group/item">
-                            <Zap
-                              size={14}
-                              className="text-blue-400 mt-1 shrink-0"
-                            />
-                            <span className="text-slate-200 font-medium leading-relaxed">
-                              {point}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="mt-auto pt-6 border-t border-white/10 relative z-30">
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map((tech) => (
-                          <span
-                            key={tech}
-                            className="flex items-center gap-1.5 px-2 py-1 md:px-3 md:py-1.5 rounded-md bg-slate-900 border border-slate-700 text-[10px] md:text-xs font-bold font-mono text-blue-100 transition-colors"
-                          >
-                            <Terminal size={10} />
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            );
-          })}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Reveal className="md:col-span-2">
+            <ProjectCard p={featured} featured />
+          </Reveal>
+          {rest.map((p, i) => (
+            <Reveal key={p.title} delay={(i % 3) * 70}>
+              <ProjectCard p={p} />
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

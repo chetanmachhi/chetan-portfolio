@@ -10,8 +10,6 @@ import {
   ExternalLink,
   Copy,
   Check,
-  Server,
-  Loader2,
   Zap,
   Layers,
   Github,
@@ -22,8 +20,8 @@ import {
   Timer,
 } from "lucide-react";
 import { BLINKIT } from "../constants";
+import { useProfile } from "../profile";
 
-type WakeState = "idle" | "waking" | "up" | "error";
 
 const fade = {
   initial: { opacity: 0, y: 20 },
@@ -133,23 +131,12 @@ const STACK = {
 };
 
 export default function Blinkit() {
-  const [wake, setWake] = useState<WakeState>("idle");
-
-  const wakeBackend = async () => {
-    setWake("waking");
-    try {
-      const res = await fetch(BLINKIT.apiHealthUrl, { cache: "no-store" });
-      setWake(res.ok ? "up" : "error");
-    } catch {
-      setWake("error");
-    }
-  };
-
+  const { homePath } = useProfile();
   return (
     <div className="relative z-10 mx-auto max-w-7xl space-y-16 px-4 pb-20 pt-28 sm:px-6 md:pt-32">
       {/* Header */}
       <motion.header {...fade} className="space-y-8 border-b border-white/10 pb-10">
-        <Link to="/#projects" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-cyan-300">
+        <Link to={`${homePath}#projects`} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-cyan-300">
           <ArrowLeft size={16} /> Back to projects
         </Link>
 
@@ -191,38 +178,6 @@ export default function Blinkit() {
           </div>
         </div>
       </motion.header>
-
-      {/* Wake-up notice */}
-      <motion.div
-        {...fade}
-        className="flex flex-col gap-4 rounded-2xl border border-slate-700 bg-slate-950/80 p-5 sm:flex-row sm:items-center sm:justify-between"
-      >
-        <div className="flex items-start gap-3">
-          <Server size={20} className="mt-0.5 shrink-0 text-cyan-400" />
-          <p className="text-sm font-medium leading-relaxed text-slate-300">
-            The backend runs on a free tier that sleeps when idle. Wake it first; the first request can take up to a
-            minute, and after that everything is instant.
-          </p>
-        </div>
-        <button
-          onClick={wakeBackend}
-          disabled={wake === "waking"}
-          className={`inline-flex shrink-0 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition-colors ${
-            wake === "up"
-              ? "border border-emerald-500/50 bg-emerald-500/10 text-emerald-300"
-              : wake === "error"
-              ? "border border-rose-500/50 bg-rose-500/10 text-rose-300"
-              : "border border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/10"
-          }`}
-        >
-          {wake === "waking" && <Loader2 size={16} className="animate-spin" />}
-          {wake === "up" && <Check size={16} />}
-          {wake === "idle" && "Wake the backend"}
-          {wake === "waking" && "Waking up…"}
-          {wake === "up" && "Backend is live"}
-          {wake === "error" && "Still starting, try again"}
-        </button>
-      </motion.div>
 
       {/* Try it */}
       <section className="space-y-8">
