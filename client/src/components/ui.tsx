@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { isHomePath } from "../profile";
 
 /*
@@ -122,4 +123,184 @@ export function scrollToSection(id: string, navigate: (to: string) => void, path
   const el = document.getElementById(id);
   if (!el) return;
   window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: "smooth" });
+}
+
+/**
+ * Mobile swipe deck: an endlessly looping carousel with native scroll-snap.
+ *
+ * The cards are rendered three times ([copy A][real][copy B]); you always start in the
+ * middle copy, so there's a card peeking in on BOTH sides, even on the first one. When a
+ * swipe settles in an outer copy, we jump (instantly, invisibly — the content is identical)
+ * back to the same card in the middle copy, so you can keep swiping forever either way.
+ * Swiping reports the centred card via onIndexChange; changing `index` from outside (tab
+ * chip, dot) glides to it. ‹ › arrows sit beside the dots.
+ */
+export function SwipeDeck({
+  index,
+  onIndexChange,
+  label,
+  children,
+}: {
+  index: number;
+  onIndexChange: (i: number) => void;
+  label: string;
+  children: ReactNode[];
+}) {
+  const n = children.length;
+  const loop = n > 1;
+  const slides = loop ? [...children, ...children, ...children] : children;
+  const ref = useRef<HTMLDivElement>(null);
+  const [phys, setPhys] = useState(loop ? n + index : index); // centred slide (physical)
+  const physRef = useRef(phys);
+  const indexRef = useRef(index);
+  const cbRef = useRef(onIndexChange);
+  const targetRef = useRef<number | null>(null); // set while gliding to a chosen slide
+
+  useEffect(() => {
+    indexRef.current = index;
+    cbRef.current = onIndexChange;
+  });
+
+  const offsetFor = (i: number) => {
+    const el = ref.current!;
+    const ch = el.children[i] as HTMLElement;
+    return ch.offsetLeft - (el.clientWidth - ch.offsetWidth) / 2;
+  };
+  const setPhysical = (i: number) => {
+    physRef.current = i;
+    setPhys(i);
+  };
+  const glideTo = (i: number) => {
+    targetRef.current = i;
+    ref.current?.scrollTo({ left: offsetFor(i), behavior: "smooth" });
+  };
+
+  // Start centred on the current card in the middle copy; re-centre on resize.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const centre = () => {
+      el.scrollLeft = offsetFor(physRef.current);
+    };
+    centre();
+    window.addEventListener("resize", centre);
+    return () => window.removeEventListener("resize", centre);
+  }, []);
+
+  // Swipe -> active card; when the swipe settles in an outer copy, jump to the middle copy.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let raf = 0;
+    let settle: ReturnType<typeof setTimeout>;
+
+    const nearest = () => {
+      const mid = el.scrollLeft + el.clientWidth / 2;
+      let best = 0;
+      let bestD = Infinity;
+      Array.from(el.children).forEach((c, i) => {
+        const ch = c as HTMLElement;
+        const d = Math.abs(ch.offsetLeft + ch.offsetWidth / 2 - mid);
+        if (d < bestD) {
+          bestD = d;
+          best = i;
+        }
+      });
+      return best;
+    };
+
+    const onSettle = () => {
+      const best = nearest();
+      targetRef.current = null;
+      if (loop && (best < n || best >= 2 * n)) {
+        const mirror = (best % n) + n;
+        el.classList.add("deck-jump"); // no fade/scale transition during the invisible jump
+        el.scrollLeft = offsetFor(mirror);
+        setPhysical(mirror);
+        requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove("deck-jump")));
+      }
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const best = nearest();
+        if (best !== physRef.current) setPhysical(best);
+        const logical = best % n;
+        if (targetRef.current === null && logical !== indexRef.current) cbRef.current(logical);
+      });
+      clearTimeout(settle);
+      settle = setTimeout(onSettle, 140);
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+      clearTimeout(settle);
+    };
+  }, [n, loop]);
+
+  // Index changed from outside (chip / dot): glide to the closest copy of that card.
+  useEffect(() => {
+    if (index === physRef.current % n) return;
+    const options = loop ? [index, index + n, index + 2 * n] : [index];
+    const target = options.reduce((a, b) => (Math.abs(b - physRef.current) < Math.abs(a - physRef.current) ? b : a));
+    glideTo(target);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
+
+  const step = (dir: -1 | 1) => {
+    const next = Math.max(0, Math.min(slides.length - 1, physRef.current + dir));
+    glideTo(next);
+    cbRef.current(next % n);
+  };
+
+  // Side arrows: in the peek gutters, near the top of the cards so they're on screen as soon
+  // as the card is (dead-centre would be off-screen on tall cards).
+  const arrow =
+    "absolute top-[min(50%,7rem)] z-10 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-white/15 bg-slate-950/85 text-slate-200 shadow-[0_6px_20px_-6px_rgba(0,0,0,0.9)] transition-colors active:bg-cyan-400/20 active:text-white";
+
+  return (
+    <div>
+      <div className="relative -mx-6">
+      <button onClick={() => step(-1)} aria-label="Previous" className={`${arrow} left-1`}>
+        <ChevronLeft size={18} />
+      </button>
+      <button onClick={() => step(1)} aria-label="Next" className={`${arrow} right-1`}>
+        <ChevronRight size={18} />
+      </button>
+      <div
+        ref={ref}
+        role="region"
+        aria-label={label}
+        className="relative flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-[7%] pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [&.deck-jump>*]:transition-none"
+      >
+        {slides.map((child, i) => (
+          <div
+            key={i}
+            aria-hidden={i !== phys}
+            className={`w-[86%] shrink-0 snap-center transition-[opacity,transform] duration-300 ${
+              i === phys ? "opacity-100" : "scale-[0.96] opacity-40"
+            }`}
+          >
+            {child}
+          </div>
+        ))}
+      </div>
+      </div>
+
+      {/* Position dots */}
+      <div className="mt-4 flex justify-center gap-1.5">
+        {children.map((_, i) => (
+          <button
+            key={i}
+            aria-label={`Show item ${i + 1}`}
+            onClick={() => onIndexChange(i)}
+            className={`h-1.5 rounded-full transition-all duration-300 ${i === index ? "w-5 bg-cyan-400" : "w-1.5 bg-white/20"}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }

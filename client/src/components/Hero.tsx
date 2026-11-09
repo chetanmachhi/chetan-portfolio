@@ -56,9 +56,8 @@ export default function Hero() {
         <div className="order-2 lg:order-1 text-center lg:text-left">
           <Reveal delay={80}>
             <p className="font-mono text-sm text-cyan-400/80">&gt; hello world, I'm</p>
-            <h1 className="mt-2 text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] text-white">
-              {first}
-              <br />
+            <h1 className="mt-2 text-[2.6rem] sm:text-6xl xl:text-7xl font-black tracking-tight leading-[1.05] text-white">
+              {first}{" "}
               <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-300 via-blue-400 to-violet-400">{rest.join(" ")}</span>
             </h1>
           </Reveal>
