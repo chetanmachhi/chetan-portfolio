@@ -29,7 +29,15 @@ import {
   SiJira,
   SiZoho,
   SiMeta,
+  SiMysql,
+  SiRedis,
+  SiAmazonwebservices,
+  SiFigma,
+  SiDocker,
+  SiReactquery,
 } from "react-icons/si";
+
+import { FaLayerGroup, FaStream, FaUsersCog } from "react-icons/fa";
 
 export const PERSONAL_INFO = {
   name: "Chetan Machhi",
@@ -39,19 +47,22 @@ export const PERSONAL_INFO = {
   linkedin: "https://www.linkedin.com/in/chetan-machhi-25-03-2001-/",
   github: "https://github.com/chetanmachhi",
   about:
-    "Full Stack Developer experienced in scalable web and mobile applications using React, React Native, Node.js, Express, and MongoDB. I have strong expertise in backend automation, API development, system monitoring, and production support. Currently pursuing my MCA at Sigma University.",
+    "Full Stack Developer with 2 years of experience building scalable web and mobile applications across food delivery, solar clean-tech, and aviation telecom platforms. Proficient in React.js, React Native, TypeScript, Node.js, Express.js, MongoDB, MySQL, Redis, BullMQ, and AWS. I design REST APIs, real-time backend workflows, queue-based processing, and automated monitoring tools for production systems. Currently pursuing my MCA at Sigma University.",
 };
 
 export const SKILLS = [
   { name: "React", icon: FaReact, color: "text-blue-400" },
   { name: "React Native", icon: FaMobileAlt, color: "text-blue-500" },
+  { name: "Node.js", icon: FaNodeJs, color: "text-green-500" },
   { name: "Express.js", icon: SiExpress, color: "text-gray-400" },
   { name: "MongoDB", icon: SiMongodb, color: "text-green-400" },
+  { name: "MySQL", icon: SiMysql, color: "text-sky-400" },
+  { name: "Redis", icon: SiRedis, color: "text-red-500" },
+  { name: "AWS", icon: SiAmazonwebservices, color: "text-orange-400" },
+  { name: "TypeScript", icon: SiTypescript, color: "text-blue-600" },
+  { name: "Redux", icon: SiRedux, color: "text-purple-500" },
   { name: "Spring Boot", icon: SiSpringboot, color: "text-green-600" },
   { name: "Flask", icon: SiFlask, color: "text-white" },
-  { name: "SQL", icon: FaDatabase, color: "text-orange-400" },
-  { name: "Redux", icon: SiRedux, color: "text-purple-500" },
-  { name: "TypeScript", icon: SiTypescript, color: "text-blue-600" },
 ];
 
 export const SKILL_CATEGORIES = [
@@ -64,58 +75,97 @@ export const SKILL_CATEGORIES = [
       { name: "Redux Toolkit", icon: SiRedux, color: "text-purple-500" },
       { name: "TypeScript", icon: SiTypescript, color: "text-blue-600" },
       { name: "Tailwind CSS", icon: SiTailwindcss, color: "text-cyan-400" },
+      { name: "TanStack Query", icon: SiReactquery, color: "text-rose-400" },
       { name: "HTML5", icon: SiHtml5, color: "text-orange-500" },
       { name: "CSS3", icon: SiCss3, color: "text-blue-500" },
     ],
   },
   {
-    title: "Backend & Database",
+    title: "Backend",
     icon: FaNodeJs,
     skills: [
+      { name: "Node.js", icon: FaNodeJs, color: "text-green-600" },
       { name: "Express.js", icon: SiExpress, color: "text-gray-400" },
       { name: "Spring Boot", icon: SiSpringboot, color: "text-green-500" },
       { name: "Flask", icon: SiFlask, color: "text-white" },
-      { name: "Node.js", icon: FaNodeJs, color: "text-green-600" },
       { name: "REST APIs", icon: FaNodeJs, color: "text-blue-300" },
+      { name: "BullMQ", icon: FaLayerGroup, color: "text-red-400" },
+      { name: "Message Queues", icon: FaStream, color: "text-amber-400" },
+    ],
+  },
+  {
+    title: "Databases",
+    icon: FaDatabase,
+    skills: [
       { name: "MongoDB", icon: SiMongodb, color: "text-green-400" },
-      { name: "SQL", icon: FaDatabase, color: "text-orange-400" },
+      { name: "MySQL", icon: SiMysql, color: "text-sky-400" },
+      { name: "Redis", icon: SiRedis, color: "text-red-500" },
+      { name: "SQL / NoSQL", icon: FaDatabase, color: "text-orange-400" },
+      { name: "Query Optimization", icon: FaDatabase, color: "text-emerald-400" },
+      { name: "Indexing", icon: FaDatabase, color: "text-cyan-400" },
+    ],
+  },
+  {
+    title: "Cloud & DevOps",
+    icon: FaCloud,
+    skills: [
+      { name: "AWS", icon: SiAmazonwebservices, color: "text-orange-400" },
+      { name: "CI/CD", icon: FaInfinity, color: "text-blue-400" },
+      { name: "Docker", icon: SiDocker, color: "text-sky-500" },
+      { name: "Linux", icon: FaLinux, color: "text-yellow-500" },
+      { name: "Shell Scripting", icon: FaTerminal, color: "text-green-500" },
+      { name: "Git", icon: FaGitAlt, color: "text-orange-600" },
     ],
   },
   {
     title: "Programming Languages",
     icon: FaPython,
     skills: [
+      { name: "JavaScript", icon: SiJavascript, color: "text-yellow-400" },
+      { name: "TypeScript", icon: SiTypescript, color: "text-blue-600" },
       { name: "Python", icon: FaPython, color: "text-yellow-300" },
       { name: "Java", icon: FaJava, color: "text-red-500" },
       { name: "C", icon: SiC, color: "text-blue-500" },
-      { name: "JavaScript", icon: SiJavascript, color: "text-yellow-400" },
     ],
   },
   {
-    title: "Tools & DevOps",
+    title: "Tools & Practices",
     icon: FaGitAlt,
     skills: [
-      { name: "Git", icon: FaGitAlt, color: "text-orange-600" },
-      { name: "CI/CD", icon: FaInfinity, color: "text-blue-400" },
-      { name: "Linux", icon: FaLinux, color: "text-yellow-500" },
-      { name: "Shell Scripting", icon: FaTerminal, color: "text-green-500" },
       { name: "Jira", icon: SiJira, color: "text-blue-500" },
       { name: "Zoho", icon: SiZoho, color: "text-yellow-600" },
+      { name: "Agile", icon: FaUsersCog, color: "text-purple-400" },
+      { name: "Figma-to-code", icon: SiFigma, color: "text-pink-400" },
+      { name: "Git", icon: FaGitAlt, color: "text-orange-600" },
     ],
   },
 ];
 
 export const EXPERIENCES = [
   {
-    company: "Frelite Energy",
-    role: "Full Stack Developer",
-    period: "Jun 2025 - Present",
+    company: "Easy Caters India",
+    role: "Software Engineer",
+    period: "May 2026 - Present",
     location: "Vadodara",
     description: [
-      "Architecting scalable web and mobile ecosystems using React.js, React Native, and TypeScript.",
-      "Designing high-performance RESTful APIs with Express.js and MongoDB for production systems.",
-      "Implementing global state management strategies using Redux Toolkit for seamless data flow.",
-      "Optimizing UI/UX for desktop and Android platforms with a mobile-first approach.",
+      "Designing and optimizing scalable REST APIs with Express.js and MySQL for high-volume data processing.",
+      "Deploying backend applications on AWS to ensure high availability across environments.",
+      "Building responsive React UI components and integrating them with backend logic.",
+      "Optimizing complex SQL queries and database indexing to improve performance and reduce latency.",
+    ],
+    tech: ["Express.js", "MySQL", "AWS", "React"],
+    color: "violet",
+  },
+  {
+    company: "Frelit Energy",
+    role: "Full Stack Developer",
+    period: "Jun 2025 - May 2026",
+    location: "Vadodara",
+    description: [
+      "Developed and maintained scalable web and mobile applications using React.js, React Native, TypeScript, and Tailwind CSS.",
+      "Designed, implemented, and maintained RESTful APIs using Express.js and MongoDB for production systems.",
+      "Implemented Redux Toolkit state management for predictable data flow across web and mobile platforms.",
+      "Built responsive, mobile-first user interfaces optimized for desktop and Android applications.",
     ],
     tech: ["React Native", "TypeScript", "Redux", "MongoDB"],
     color: "blue",
@@ -194,7 +244,36 @@ export const CERTIFICATIONS = [
   },
 ];
 
+/** Live links and downloads for the Blinkit project page. */
+export const BLINKIT = {
+  storePanelUrl: "https://blinkit-store-web.vercel.app/login",
+  apiHealthUrl: "https://blinkit-backend-2bv1.onrender.com/health",
+  // GitHub Releases: upload Blinkit-Customer.apk / Blinkit-Delivery.apk to the latest release of each repo.
+  customerApkUrl: "https://github.com/chetanmachhi/blinkit-customer-app/releases/latest/download/Blinkit-Customer.apk",
+  deliveryApkUrl: "https://github.com/chetanmachhi/blinkit-delivery-app/releases/latest/download/Blinkit-Delivery.apk",
+  repos: {
+    backend: "https://github.com/chetanmachhi/blinkit-backend",
+    customerApp: "https://github.com/chetanmachhi/blinkit-customer-app",
+    deliveryApp: "https://github.com/chetanmachhi/blinkit-delivery-app",
+    storeWeb: "https://github.com/chetanmachhi/blinkit-store-web",
+  },
+};
+
 export const PROJECTS = [
+  {
+    title: "Blinkit Clone: Quick Commerce Platform",
+    category: "Full Stack + Mobile",
+    tech: ["React Native", "React", "Node.js", "Express", "MongoDB", "TypeScript"],
+    description:
+      "End-to-end 10-minute grocery delivery: customer app, rider app, and store admin panel on one modular backend.",
+    highlights: [
+      "Two React Native apps (customer + delivery partner) and a React store panel, all live.",
+      "Modular-monolith Express backend: customer, store and delivery modules deployable as one or split later.",
+      "Atomic stock reservation and race-safe rider assignment using conditional MongoDB updates.",
+      "Live order board tuned to 60fps with dozens of orders; Google Maps hand-off for rider navigation.",
+    ],
+    link: "/projects/blinkit",
+  },
   {
     title: "Solar Chat Pro",
     category: "SaaS & AI Automation",
@@ -207,7 +286,7 @@ export const PROJECTS = [
       "Enabled users to generate, manage, and download PDF quotations via web or WhatsApp.",
       "Implemented a conversational chatbot interface to handle core business logic through simple chat.",
     ],
-    link: "https://solarchat.pro",
+    link: "https://solarchatpro.com",
   },
   {
     title: "Bento Bits",

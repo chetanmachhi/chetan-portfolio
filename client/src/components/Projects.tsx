@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { FolderGit2, Layers, Zap, Terminal, ExternalLink } from "lucide-react";
 import { PROJECTS } from "../constants";
+import { Link } from "react-router-dom";
 
 export default function Projects() {
   return (
@@ -30,8 +31,8 @@ export default function Projects() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {PROJECTS.map((project, index) => {
-            const isLinkable = !!project.link;
-            const CardWrapper = isLinkable ? "a" : "div";
+            const isExternal = project.link?.startsWith("http");
+            const isInternal = project.link?.startsWith("/");
 
             return (
               <motion.div
@@ -42,18 +43,25 @@ export default function Projects() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group relative h-full"
               >
-                <CardWrapper
-                  {...(isLinkable
-                    ? {
-                        href: project.link,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                      }
-                    : {})}
-                  className={`relative h-full flex flex-col bg-slate-950/80 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 will-change-transform backface-hidden hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] group-hover:-translate-y-2 ${
-                    isLinkable ? "cursor-pointer" : ""
-                  }`}
-                >
+                <div className="relative h-full flex flex-col bg-slate-950/80 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-500 group-hover:-translate-y-2 will-change-transform backface-hidden">
+                  {isInternal && (
+                    <Link
+                      to={project.link!}
+                      className="absolute inset-0 z-20 cursor-pointer"
+                      aria-label={`Open ${project.title}`}
+                    />
+                  )}
+
+                  {isExternal && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute inset-0 z-20 cursor-pointer"
+                      aria-label={`Open ${project.title}`}
+                    />
+                  )}
+
                   <div className="h-1 w-full bg-linear-to-r from-blue-500 via-purple-500 to-blue-500 opacity-50 group-hover:opacity-100 transition-opacity" />
 
                   <div className="p-6 md:p-8 flex flex-col h-full">
@@ -61,9 +69,9 @@ export default function Projects() {
                       <div className="p-3 rounded-xl bg-slate-900 border border-slate-700 text-blue-400 group-hover:text-white group-hover:bg-blue-600 transition-colors shadow-lg">
                         <FolderGit2 size={24} />
                       </div>
-                      <div className="flex items-center gap-2">
-                        {isLinkable && (
-                          <ExternalLink size={14} className="text-slate-500" />
+                      <div className="flex gap-2 items-center">
+                        {project.link && (
+                          <ExternalLink size={14} className="text-blue-400" />
                         )}
                         <span className="px-3 py-1 rounded-full bg-slate-800 border border-slate-600 text-[10px] md:text-xs font-bold font-mono text-slate-300">
                           {project.category}
@@ -99,7 +107,7 @@ export default function Projects() {
                       </ul>
                     </div>
 
-                    <div className="mt-auto pt-6 border-t border-white/10">
+                    <div className="mt-auto pt-6 border-t border-white/10 relative z-30">
                       <div className="flex flex-wrap gap-2">
                         {project.tech.map((tech) => (
                           <span
@@ -113,7 +121,7 @@ export default function Projects() {
                       </div>
                     </div>
                   </div>
-                </CardWrapper>
+                </div>
               </motion.div>
             );
           })}
